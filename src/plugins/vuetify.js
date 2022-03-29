@@ -5,4 +5,14 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
   rtl : true,
+  theme: {
+    themes: {
+      light: {
+        pallete1: "#141E27",
+        pallete2:  "#203239",
+        pallete3: "#E0DDAA",
+        pallete4: "#EEEDDE",
+      },
+    },
+  },
 });
