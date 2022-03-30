@@ -27,8 +27,14 @@
                 shaped
               ></v-text-field>
             </v-col>
+            <p
+              class="text-h6 mr-4 mt-n3 pallete3--text forget-password"
+              @click="goToRecoverPassword"
+            >
+              رمز عبور خود را فراموش کرده‌ام !
+            </p>
           </v-row>
-          <div class="login-button">
+          <div class="login-button mt-4">
             <v-btn
               :loading="loading"
               light
@@ -74,6 +80,9 @@ export default {
         this.$refs.loginForm.validate();
       }
     },
+    goToRecoverPassword() {
+      this.$router.push({ name: "forget-password" });
+    },
   },
 };
 </script>
@@ -103,5 +112,10 @@ export default {
 }
 .login-button span {
   font-size: 1.6rem;
+}
+.forget-password {
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-block;
 }
 </style>
