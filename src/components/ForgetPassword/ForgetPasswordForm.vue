@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: "ُforgetPasswordForm",
+  name: "ُForgetPasswordForm",
   data() {
     return {
       user: {

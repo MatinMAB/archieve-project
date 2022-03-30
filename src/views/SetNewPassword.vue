@@ -2,17 +2,18 @@
   <div>
     <BackButton />
     <Particle />
-    <ForgetPasswordForm />
+    <SetNewPasswordForm />
   </div>
 </template>
 
 <script>
 import Particle from "../components/Shared/Particle.vue";
+import SetNewPasswordForm from "../components/SetNewPassword/SetNewPasswordForm.vue";
+
 import BackButton from "../components/Shared/BackButton.vue";
-import ForgetPasswordForm from "../components/ForgetPassword/ForgetPasswordForm.vue";
 export default {
-  name: "ForgetPassword",
-  components: { BackButton, Particle, ForgetPasswordForm },
+  name: "SetNewPassword",
+  components: { SetNewPasswordForm, BackButton, Particle },
 };
 </script>
 

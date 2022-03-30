@@ -31,6 +31,14 @@ const routes = [
         /* webpackChunkName: "forget-password" */ "../views/ForgetPassword.vue"
       ),
   },
+  {
+    path: "/set-new-password",
+    name: "set-new-password",
+    component: () =>
+      import(
+        /* webpackChunkName: "set-new-password" */ "../views/SetNewPassword.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({
