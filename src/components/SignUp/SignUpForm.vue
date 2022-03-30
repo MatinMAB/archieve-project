@@ -12,6 +12,7 @@
                 v-model="user.name"
                 :rules="[(value) => !!value || 'فیلد نام کاربری الزامی است']"
                 label="نام کاربری *"
+                append-icon="mdi-account-tie"
                 outlined
                 shaped
               ></v-text-field>
@@ -26,12 +27,14 @@
                     /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.test(value) ||
                     'لطفا ایمیل معتبر وارد کنید',
                 ]"
+                append-icon="mdi-email"
                 outlined
                 shaped
               ></v-text-field>
             </v-col>
             <v-col cols="12" class="mt-n4">
               <v-text-field
+                :type="showPassword ? 'text' : 'password'"
                 v-model="user.password"
                 label="رمز عبور *"
                 :rules="[
@@ -40,6 +43,8 @@
                     value.length >= 8 ||
                     'تعداد ارقام رمز عبور شما باید بیشتر از 7 باشد',
                 ]"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
                 counter
                 outlined
                 shaped
@@ -47,6 +52,7 @@
             </v-col>
             <v-col cols="12" class="mt-n4">
               <v-text-field
+                :type="showPassword ? 'text' : 'password'"
                 v-model="user.againPassword"
                 label="تکرار رمز عبور *"
                 :rules="[
@@ -54,6 +60,8 @@
                   (value) =>
                     value === user.password || 'تکرار رمز عبور نادرست است',
                 ]"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
                 counter
                 outlined
                 shaped
@@ -74,7 +82,9 @@
           <div class="text-center mt-4 text-h6">
             <p>
               از قبل حساب کاربری دارید ؟
-              <router-link :to="{name : 'login'}" class="pallete3--text">ورود به حساب</router-link>
+              <router-link :to="{ name: 'login' }" class="pallete3--text"
+                >ورود به حساب</router-link
+              >
             </p>
           </div>
         </v-container>
@@ -94,6 +104,7 @@ export default {
         password: "",
         againPassword: "",
       },
+      showPassword: false,
       loading: false,
     };
   },
@@ -135,5 +146,4 @@ export default {
 .signup-button span {
   font-size: 1.6rem;
 }
-
 </style>

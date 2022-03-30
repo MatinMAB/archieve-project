@@ -1,11 +1,6 @@
 <template>
   <div class="login-page">
-    <v-card
-      class="login-box pa-4 mx-2"
-      color="pallete2"
-      width="400"
-      dark
-    >
+    <v-card class="login-box pa-4 mx-2" color="pallete2" width="400" dark>
       <v-card-title class="login-title mb-3">ورود به داشبورد</v-card-title>
       <v-form ref="loginForm">
         <v-container>
@@ -13,9 +8,8 @@
             <v-col cols="12">
               <v-text-field
                 v-model="user.email"
-                :rules="[
-                  value => !! value || 'فیلد ایمیل الزامی است'
-                ]"
+                :rules="[(value) => !!value || 'فیلد ایمیل الزامی است']"
+                append-icon="mdi-email"
                 label="ایمیل *"
                 outlined
                 shaped
@@ -23,25 +17,34 @@
             </v-col>
             <v-col cols="12" class="mt-n3">
               <v-text-field
+                :type="showPassword ? 'text' : 'password'"
                 v-model="user.password"
                 label="رمز عبور *"
-                :rules="[
-                  value => !! value || 'فیلد رمز عبور الزامی است'
-                ]"
+                :rules="[(value) => !!value || 'فیلد رمز عبور الزامی است']"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
                 outlined
                 shaped
               ></v-text-field>
             </v-col>
           </v-row>
           <div class="login-button">
-            <v-btn :loading="loading" light elevation="3" large color="pallete3" @click="login()"
+            <v-btn
+              :loading="loading"
+              light
+              elevation="3"
+              large
+              color="pallete3"
+              @click="login()"
               ><span>ورود</span></v-btn
             >
           </div>
           <div class="text-center mt-4 text-h6">
             <p>
               هنوز حساب کاربری ندارید ؟
-              <router-link :to="{name : 'sign-up'}" class="pallete3--text">ایجاد حساب</router-link>
+              <router-link :to="{ name: 'sign-up' }" class="pallete3--text"
+                >ایجاد حساب</router-link
+              >
             </p>
           </div>
         </v-container>
@@ -59,18 +62,18 @@ export default {
         email: "",
         password: "",
       },
-      loading : false
+      showPassword: false,
+      loading: false,
     };
   },
   methods: {
-    login(){
-      if(this.$refs.loginForm.validate()){
+    login() {
+      if (this.$refs.loginForm.validate()) {
         this.loading = true;
-      }
-      else{
+      } else {
         this.$refs.loginForm.validate();
       }
-    }
+    },
   },
 };
 </script>
