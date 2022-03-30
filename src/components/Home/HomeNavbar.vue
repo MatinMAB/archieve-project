@@ -16,13 +16,14 @@
         </template>
 
         <v-list>
-          <v-list-item @click="() => {}">
+          <v-list-item @click="goToLogin()">
             <v-list-item-title>
               <v-icon left> mdi-login </v-icon>
               <span class="mr-1">ورود</span>
             </v-list-item-title>
           </v-list-item>
-          <v-list-item @click="() => {}">
+
+          <v-list-item @click="goToSignUp()">
             <v-list-item-title>
               <v-icon left> mdi-account-plus </v-icon>
               <span class="mr-1">ثبت نام</span>
@@ -32,11 +33,11 @@
       </v-menu>
 
       <div v-else>
-        <v-btn tile color="pallete3" light class="text-h5">
+        <v-btn tile color="pallete3" light class="text-h5" @click="goToLogin()">
           <v-icon left> mdi-login </v-icon>
           <span>ورود</span>
         </v-btn>
-        <v-btn tile color="pallete3" class="mr-3 text-h5" light>
+        <v-btn tile color="pallete3" class="mr-3 text-h5" light @click="goToSignUp()">
           <v-icon left> mdi-account-plus </v-icon>
           <span>ثبت نام</span>
         </v-btn>
@@ -48,11 +49,13 @@
 <script>
 export default {
   name: "HomeNavbar",
-  data() {
-    return {
-      drawer: false,
-      group: null,
-    };
+  methods: {
+    goToLogin() {
+      this.$router.push({ name: "login" });
+    },
+    goToSignUp(){
+
+    }
   },
 };
 </script>
@@ -64,7 +67,7 @@ export default {
   right: 0;
   z-index: 99;
   transform: translateY(-8rem);
-  animation: navbar 0.9s ease-in-out forwards;
+  animation: navbar 0.5s ease-in-out forwards;
 }
 .toolbar-title {
   color: #eeedde;

@@ -1,0 +1,104 @@
+<template>
+  <div class="login-page">
+    <v-card
+      class="login-box pa-4 mx-2"
+      color="pallete2"
+      width="400"
+      dark
+    >
+      <v-card-title class="login-title mb-3">ورود به داشبورد</v-card-title>
+      <v-form ref="loginForm">
+        <v-container>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="user.email"
+                :rules="[
+                  value => !! value || 'فیلد ایمیل الزامی است'
+                ]"
+                label="ایمیل *"
+                outlined
+                shaped
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" class="mt-n3">
+              <v-text-field
+                v-model="user.password"
+                label="رمز عبور *"
+                :rules="[
+                  value => !! value || 'فیلد رمز عبور الزامی است'
+                ]"
+                outlined
+                shaped
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <div class="login-button">
+            <v-btn :loading="loading" light elevation="3" large color="pallete3" @click="login()"
+              ><span>ورود</span></v-btn
+            >
+          </div>
+          <div class="text-center mt-4 text-h6">
+            <p>
+              هنوز حساب کاربری ندارید ؟
+              <span class="pallete3--text">ایجاد حساب</span>
+            </p>
+          </div>
+        </v-container>
+      </v-form>
+    </v-card>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "LoginForm",
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+      },
+      loading : false
+    };
+  },
+  methods: {
+    login(){
+      if(this.$refs.loginForm.validate()){
+        this.loading = true;
+      }
+      else{
+        this.$refs.loginForm.validate();
+      }
+    }
+  },
+};
+</script>
+
+<style scoped>
+.login-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-title {
+  font-size: 2.6rem;
+}
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-button span {
+  font-size: 1.6rem;
+}
+</style>
