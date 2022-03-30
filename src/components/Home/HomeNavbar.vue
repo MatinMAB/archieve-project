@@ -8,14 +8,39 @@
         ><span> پروژه دانشگاهی</span></v-toolbar-title
       >
       <v-spacer></v-spacer>
-      <v-btn tile color="pallete3" light class="text-h5">
-        <v-icon left> mdi-login </v-icon>
-        <span>ورود</span>
-      </v-btn>
-      <v-btn tile color="pallete3" class="mr-3 text-h5" light>
-        <v-icon left> mdi-account-plus </v-icon>
-        <span>ثبت نام</span>
-      </v-btn>
+      <v-menu left bottom v-if="$vuetify.breakpoint.xs">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item @click="() => {}">
+            <v-list-item-title>
+              <v-icon left> mdi-login </v-icon>
+              <span class="mr-1">ورود</span>
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="() => {}">
+            <v-list-item-title>
+              <v-icon left> mdi-account-plus </v-icon>
+              <span class="mr-1">ثبت نام</span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <div v-else>
+        <v-btn tile color="pallete3" light class="text-h5">
+          <v-icon left> mdi-login </v-icon>
+          <span>ورود</span>
+        </v-btn>
+        <v-btn tile color="pallete3" class="mr-3 text-h5" light>
+          <v-icon left> mdi-account-plus </v-icon>
+          <span>ثبت نام</span>
+        </v-btn>
+      </div>
     </v-app-bar>
   </div>
 </template>
@@ -23,6 +48,12 @@
 <script>
 export default {
   name: "HomeNavbar",
+  data() {
+    return {
+      drawer: false,
+      group: null,
+    };
+  },
 };
 </script>
 
