@@ -1,10 +1,10 @@
 <template>
-  <div class="signup-page">
-    <v-card class="signup-box pa-4 mx-2" color="pallete2" width="350" dark>
-      <v-card-title class="signup-title mb-3"
+  <div class="forget-password-page">
+    <v-card class="forget-password-box pa-4 mx-2" color="pallete2" width="350" dark>
+      <v-card-title class="forget-password-title mb-3"
         >فراموشی رمز عبور</v-card-title
       >
-      <v-form ref="SignUpForm">
+      <v-form ref="forgetPasswordForm">
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -23,7 +23,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <div class="signup-button mt-2">
+          <div class="forget-password-button mt-2">
             <v-btn
               :loading="loading"
               light
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: "ُSignUpForm",
+  name: "ُforgetPasswordForm",
   data() {
     return {
       user: {
@@ -54,10 +54,10 @@ export default {
   },
   methods: {
     login() {
-      if (this.$refs.SignUpForm.validate()) {
+      if (this.$refs.forgetPasswordForm.validate()) {
         this.loading = true;
       } else {
-        this.$refs.SignUpForm.validate();
+        this.$refs.forgetPasswordForm.validate();
       }
     },
   },
@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style scoped>
-.signup-page {
+.forget-password-page {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -74,20 +74,20 @@ export default {
   align-items: center;
   z-index: 99;
 }
-.signup-box {
+.forget-password-box {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.signup-title {
+.forget-password-title {
   font-size: 2.2rem;
 }
-.signup-button {
+.forget-password-button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.signup-button span {
+.forget-password-button span {
   font-size: 1.6rem;
 }
 </style>
