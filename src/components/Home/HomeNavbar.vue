@@ -37,7 +37,13 @@
           <v-icon left> mdi-login </v-icon>
           <span>ورود</span>
         </v-btn>
-        <v-btn tile color="pallete3" class="mr-3 text-h5" light @click="goToSignUp()">
+        <v-btn
+          tile
+          color="pallete3"
+          class="mr-3 text-h5"
+          light
+          @click="goToSignUp()"
+        >
           <v-icon left> mdi-account-plus </v-icon>
           <span>ثبت نام</span>
         </v-btn>
@@ -53,9 +59,9 @@ export default {
     goToLogin() {
       this.$router.push({ name: "login" });
     },
-    goToSignUp(){
-
-    }
+    goToSignUp() {
+      this.$router.push({ name: "sign-up" });
+    },
   },
 };
 </script>

@@ -41,7 +41,7 @@
           <div class="text-center mt-4 text-h6">
             <p>
               هنوز حساب کاربری ندارید ؟
-              <span class="pallete3--text">ایجاد حساب</span>
+              <router-link :to="{name : 'sign-up'}" class="pallete3--text">ایجاد حساب</router-link>
             </p>
           </div>
         </v-container>

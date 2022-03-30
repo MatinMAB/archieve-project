@@ -1,7 +1,7 @@
 <template>
   <div>
     <BackButton />
-    <Particle backgroundColor="#141E27" particlesColor="#E0DDAA" linksColor="#EEEDDE"/>
+    <Particle/>
     <LoginForm />
   </div>
 </template>
