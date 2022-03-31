@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: "DashboardNavbar",
+  name: "DashboardHeader",
   data() {
     return {};
   },

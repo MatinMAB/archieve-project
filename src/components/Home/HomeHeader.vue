@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: "HomeNavbar",
+  name: "HomeHeader",
   methods: {
     goToLogin() {
       this.$router.push({ name: "login" });
