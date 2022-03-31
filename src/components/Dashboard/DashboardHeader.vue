@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar color="pallete3" dense elevation="3" app>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="$emit('change-drawer')"></v-app-bar-nav-icon>
 
       <v-toolbar-title class="text-h5">داشبورد</v-toolbar-title>
 

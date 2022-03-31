@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer absolute permanent right>
+    <v-navigation-drawer absolute right v-model="drawer">
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar>
@@ -109,21 +109,11 @@ export default {
   name: "DashboardNavigation",
   data() {
     return {
-      admins: [
-        ["Management", "mdi-account-multiple-outline"],
-        ["Settings", "mdi-cog-outline"],
-      ],
-      cruds: [
-        ["Create", "mdi-plus-outline"],
-        ["Read", "mdi-file-outline"],
-        ["Update", "mdi-update"],
-        ["Delete", "mdi-delete"],
-      ],
-    };
+    }
   },
-  created() {
-    console.log(this.$route);
-  },
+  props : {
+    drawer : Boolean,
+  }
 };
 </script>
 
