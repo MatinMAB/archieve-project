@@ -39,6 +39,14 @@ const routes = [
         /* webpackChunkName: "set-new-password" */ "../views/SetNewPassword.vue"
       ),
   },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: () =>
+      import(
+        /* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({
