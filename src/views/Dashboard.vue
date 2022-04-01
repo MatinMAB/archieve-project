@@ -2,6 +2,7 @@
   <div>
     <DashboardHeader @change-drawer="drawerHandler()"/>
     <DashboardNavigation :drawer="drawer"/>
+    <router-view></router-view>
   </div>
 </template>
 

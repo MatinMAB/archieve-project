@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer absolute right v-model="drawer">
+    <v-navigation-drawer app right width="276" v-model="drawer" color="pallete3">
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar>
@@ -18,7 +18,7 @@
 
       <v-list shaped>
         <v-list-item
-        
+          :class="{'active-navigation' : $route.fullPath === '/dashboard'}"
           class="cursor-pointer hover-navigation-link"
         >
           <v-list-item-icon>
@@ -67,9 +67,9 @@
             >
           </v-list-item>
         </v-list-group>
-        <v-list-group prepend-icon="mdi-archive-eye-outline" color="#ada84e">
-          <template v-slot:activator>
-            <v-list-item-title class="text-h6"
+        <v-list-group prepend-icon="mdi-archive-eye-outline" color="#ada84e" >
+          <template v-slot:activator class="hover-navigation-link">
+            <v-list-item-title class="text-h5 "
               >درخواست‌های دیگران</v-list-item-title
             >
           </template>
@@ -119,12 +119,12 @@ export default {
 
 <style scoped>
 .active-navigation {
-  background-color: #e0ddaa;
+  background-color: #fff !important;
 }
 .cursor-pointer {
   cursor: pointer;
 }
 .hover-navigation-link:hover{
-  background-color: #f6f6f6;
+  background-color: #D8D5A4;
 }
 </style>
