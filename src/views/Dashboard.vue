@@ -3,10 +3,12 @@
     <DashboardHeader @change-drawer="drawerHandler()"/>
     <DashboardNavigation :drawer="drawer"/>
     <router-view></router-view>
+    <DashboardFooter/>
   </div>
 </template>
 
 <script>
+import DashboardFooter from '../components/Dashboard/DashboardFooter.vue';
 import DashboardHeader from "../components/Dashboard/DashboardHeader.vue";
 import DashboardNavigation from '../components/Dashboard/DashboardNavigation.vue';
 export default {
@@ -21,7 +23,7 @@ export default {
       this.drawer = !this.drawer;
     }
   },
-  components: { DashboardHeader, DashboardNavigation },
+  components: { DashboardHeader, DashboardNavigation, DashboardFooter },
 };
 </script>
 

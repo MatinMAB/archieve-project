@@ -2,8 +2,9 @@
   <div>
     <v-container>
       <v-form>
-        <v-row class="center mt-16">
-          <v-col cols="8" md="6">
+        <v-row class="mt-16 mx-16">
+          <v-col cols="0" lg="3" sm="2"></v-col>
+          <v-col cols="12" lg="6" sm="8">
             <v-text-field
               v-model="message3"
               filled
@@ -15,9 +16,10 @@
               clearable
             ></v-text-field>
           </v-col>
+          <v-col cols="0" lg="3" sm="2"></v-col>
         </v-row>
-        <v-row class="center mt-10 mx-16">
-          <v-col cols="10" md="3">
+        <v-row class="my-10 mx-16">
+          <v-col cols="12" lg="4" sm="6" >
             <v-card
               class="pa-4"
               outlined
@@ -45,7 +47,7 @@
               >
             </v-card>
           </v-col>
-          <v-col cols="10" md="3">
+          <v-col cols="12" lg="4" sm="6">
             <v-card
               class="pa-4"
               outlined
@@ -73,7 +75,7 @@
               >
             </v-card>
           </v-col>
-          <v-col cols="10" md="3">
+          <v-col cols="12" lg="4" sm="6">
             <v-card
               class="pa-4"
               outlined
