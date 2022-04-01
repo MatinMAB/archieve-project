@@ -18,6 +18,7 @@
 
       <v-list shaped>
         <v-list-item
+        @click="$router.push('/dashboard')"
           :class="{'active-navigation' : $route.fullPath === '/dashboard'}"
           class="cursor-pointer hover-navigation-link"
         >
