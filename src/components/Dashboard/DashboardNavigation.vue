@@ -1,10 +1,16 @@
 <template>
   <div>
-    <v-navigation-drawer app right width="276" v-model="drawer" color="pallete3">
+    <v-navigation-drawer
+      app
+      right
+      width="276"
+      v-model="drawer"
+      color="pallete3"
+    >
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+            <img src="https://randomuser.me/api/portraits/women/75.jpg" />
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -18,8 +24,8 @@
 
       <v-list shaped>
         <v-list-item
-        @click="$router.push('/dashboard')"
-          :class="{'active-navigation' : $route.fullPath === '/dashboard'}"
+          @click="$router.push('/dashboard')"
+          :class="{ 'active-navigation': $route.fullPath === '/dashboard' }"
           class="cursor-pointer hover-navigation-link"
         >
           <v-list-item-icon>
@@ -34,17 +40,35 @@
             <v-list-item-title class="text-h5">شرکت ها</v-list-item-title>
           </template>
 
-          <v-list-item class="hover-navigation-link">
+          <v-list-item
+            class="hover-navigation-link"
+            @click="$router.push('/dashboard/companies/1')"
+            :class="{
+              'active-navigation': $route.fullPath === '/dashboard/companies/1',
+            }"
+          >
             <v-list-item-title class="text-h6 pr-8 cursor-pointer"
               >شرکت 1</v-list-item-title
             >
           </v-list-item>
-          <v-list-item class="hover-navigation-link">
+          <v-list-item
+            class="hover-navigation-link"
+            @click="$router.push('/dashboard/companies/2')"
+            :class="{
+              'active-navigation': $route.fullPath === '/dashboard/companies/2',
+            }"
+          >
             <v-list-item-title class="text-h6 pr-8 cursor-pointer"
               >شرکت 2</v-list-item-title
             >
           </v-list-item>
-          <v-list-item class="hover-navigation-link">
+          <v-list-item
+            class="hover-navigation-link"
+            @click="$router.push('/dashboard/companies/3')"
+            :class="{
+              'active-navigation': $route.fullPath === '/dashboard/companies/3',
+            }"
+          >
             <v-list-item-title class="text-h6 pr-8 cursor-pointer"
               >شرکت 3</v-list-item-title
             >
@@ -68,9 +92,9 @@
             >
           </v-list-item>
         </v-list-group>
-        <v-list-group prepend-icon="mdi-archive-eye-outline" color="#ada84e" >
+        <v-list-group prepend-icon="mdi-archive-eye-outline" color="#ada84e">
           <template v-slot:activator class="hover-navigation-link">
-            <v-list-item-title class="text-h5 "
+            <v-list-item-title class="text-h5"
               >درخواست‌های دیگران</v-list-item-title
             >
           </template>
@@ -91,7 +115,9 @@
             <v-icon>mdi-account-cog</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-title class="text-h5">تنظیمات حساب کاربری</v-list-item-title>
+          <v-list-item-title class="text-h5"
+            >تنظیمات حساب کاربری</v-list-item-title
+          >
         </v-list-item>
         <v-list-item class="cursor-pointer hover-navigation-link">
           <v-list-item-icon>
@@ -109,12 +135,11 @@
 export default {
   name: "DashboardNavigation",
   data() {
-    return {
-    }
+    return {};
   },
-  props : {
-    drawer : Boolean,
-  }
+  props: {
+    drawer: Boolean,
+  },
 };
 </script>
 
@@ -125,7 +150,7 @@ export default {
 .cursor-pointer {
   cursor: pointer;
 }
-.hover-navigation-link:hover{
-  background-color: #D8D5A4;
+.hover-navigation-link:hover {
+  background-color: #d8d5a4;
 }
 </style>
