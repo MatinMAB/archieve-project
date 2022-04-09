@@ -76,7 +76,7 @@
       </v-badge>
       <v-spacer></v-spacer>
       <div class="ma-8 company-user-file-category-btn">
-        <v-btn color="light-blue lighten-2" class="text-h5 ma-2">
+        <v-btn color="light-blue lighten-2" class="text-h5 ma-2" @click="$router.push(`/dashboard/companies/${$route.params.id}/users`)">
           <v-icon left dark> mdi-account-group </v-icon>
           اعضاء
         </v-btn>
@@ -187,7 +187,7 @@ export default {
   data() {
     return {
       page: 1,
-      isBoss: false,
+      isBoss: true,
     };
   },
 };

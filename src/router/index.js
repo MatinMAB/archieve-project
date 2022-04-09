@@ -57,6 +57,12 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "dashboard-company" */ "../components/Dashboard/Company/DashboardCompany.vue"),
       },
+      {
+        path: "companies/:id/users",
+        name: "company-users",
+        component: () =>
+          import(/* webpackChunkName: "company-users" */ "../components/Dashboard/Company/CompanyUsers.vue"),
+      },
     ],
   },
 ];

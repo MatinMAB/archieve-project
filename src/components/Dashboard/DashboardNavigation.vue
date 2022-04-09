@@ -44,7 +44,7 @@
             class="hover-navigation-link"
             @click="$router.push('/dashboard/companies/1')"
             :class="{
-              'active-navigation': $route.fullPath === '/dashboard/companies/1',
+              'active-navigation': $route.fullPath.includes('/dashboard/companies/1'),
             }"
           >
             <v-list-item-title class="text-h6 pr-8 cursor-pointer"
@@ -55,7 +55,7 @@
             class="hover-navigation-link"
             @click="$router.push('/dashboard/companies/2')"
             :class="{
-              'active-navigation': $route.fullPath === '/dashboard/companies/2',
+              'active-navigation': $route.fullPath.includes('/dashboard/companies/2'),
             }"
           >
             <v-list-item-title class="text-h6 pr-8 cursor-pointer"
@@ -66,7 +66,7 @@
             class="hover-navigation-link"
             @click="$router.push('/dashboard/companies/3')"
             :class="{
-              'active-navigation': $route.fullPath === '/dashboard/companies/3',
+              'active-navigation': $route.fullPath.includes('/dashboard/companies/3'),
             }"
           >
             <v-list-item-title class="text-h6 pr-8 cursor-pointer"
