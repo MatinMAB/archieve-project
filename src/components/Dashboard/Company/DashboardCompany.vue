@@ -84,7 +84,7 @@
           <v-icon left dark> mdi-file-multiple </v-icon>
           فایل ها
         </v-btn>
-        <v-btn color="yellow lighten-2" class="text-h5 ma-2">
+        <v-btn color="yellow lighten-2" class="text-h5 ma-2" @click="$router.push(`/dashboard/companies/${$route.params.id}/categories`)">
           <v-icon left dark> mdi-shape </v-icon>
           دسته‌بندی ها
         </v-btn>

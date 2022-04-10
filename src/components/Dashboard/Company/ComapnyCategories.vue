@@ -3,15 +3,15 @@
     <v-container>
       <v-card class="mt-8 mb-16">
         <v-card-title class="text-h4 font-weight-bold">
-          جدول فایل‌های موجود در شرکت {{ $route.params.id }}
+          جدول دسته‌بندی های موجود در شرکت {{ $route.params.id }}
           <v-spacer></v-spacer>
           <v-btn class="ma-3" depressed color="pallete4">
-            <span class="text-h6">افزودن فایل جدید</span>
+            <span class="text-h6">افزودن دسته‌بندی جدید</span>
             <v-icon class="mr-1">mdi-plus-circle</v-icon>
           </v-btn>
           <v-text-field
             v-model="search"
-            label="جستجوی فایل"
+            label="جستجوی دسته‌بندی"
             append-icon="mdi-magnify"
             color="#ada84e"
             clearable
@@ -21,7 +21,7 @@
           :headers="headers"
           :items="desserts"
           :search="search"
-          :footer-props="{ 'items-per-page-text': 'تعداد فایل در هر صفحه' }"
+          :footer-props="{ 'items-per-page-text': 'تعداد دسته‌بندی در هر صفحه' }"
         >
           <!-- data Table Headers -->
 
@@ -29,11 +29,11 @@
             <span class="text-h5">{{ header.text }}</span>
           </template>
 
-          <template v-slot:header.categories="{ header }">
+          <template v-slot:header.files="{ header }">
             <span class="text-h5">{{ header.text }}</span>
           </template>
 
-          <template v-slot:header.dateAdd="{ header }">
+          <template v-slot:header.dateCreated="{ header }">
             <span class="text-h5">{{ header.text }}</span>
           </template>
 
@@ -55,12 +55,12 @@
             <span class="text-h6">{{ item.name }}</span>
           </template>
 
-          <template v-slot:item.categories="{ item }">
-            <span class="text-h6">{{ item.categories }}</span>
+          <template v-slot:item.files="{ item }">
+            <span class="text-h6">{{ item.files }}</span>
           </template>
 
-          <template v-slot:item.dateAdd="{ item }">
-            <span class="text-h6">{{ item.dateAdd }}</span>
+          <template v-slot:item.dateCreated="{ item }">
+            <span class="text-h6">{{ item.dateCreated }}</span>
           </template>
 
           <template v-slot:item.details="{ item }">
@@ -91,7 +91,7 @@
           <template
             v-slot:footer.page-text="{ pageStart, pageStop, itemsLength }"
           >
-            {{ `از ${pageStart} - ${pageStop} --- کل فایل ها ${itemsLength}` }}
+            {{ `از ${pageStart} - ${pageStop} --- کل دسته‌بندی ها ${itemsLength}` }}
           </template>
         </v-data-table>
       </v-card>
@@ -101,18 +101,18 @@
 
 <script>
 export default {
-  name: "CompanyFiles",
+  name: "CompanyCategories",
   data() {
     return {
       search: "",
       headers: [
         {
-          text: "نام فایل",
+          text: "نام دسته‌بندی",
           align: "start",
           value: "name",
         },
-        { text: "دسته ها", value: "categories" },
-        { text: "تاریخ افزودن", value: "dateAdd" },
+        { text: "فایل ها", value: "files" },
+        { text: "تاریخ ایجاد", value: "dateCreated" },
         { text: "جزئیات", value: "details", sortable: false },
 
         { text: "", value: "", sortable: false },
@@ -135,70 +135,70 @@ export default {
       desserts: [
         {
           name: "Frozen Yogurt",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
           details: {},
         },
         {
           name: "Ice cream sandwich",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Eclair",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Cupcake",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Gingerbread",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Jelly bean",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Lollipop",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Honeycomb",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "Donut",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },
         {
           name: "KitKat",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
+          files: "communication , ..",
+          dateCreated: "1400/01/01",
 
           details: {},
         },

@@ -69,6 +69,12 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "company-files" */ "../components/Dashboard/Company/CompanyFiles.vue"),
       },
+      {
+        path: "companies/:id/categories",
+        name: "company-categories",
+        component: () =>
+          import(/* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/ComapnyCategories.vue"),
+      },
     ],
   },
 ];
