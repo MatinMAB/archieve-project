@@ -63,6 +63,12 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "company-users" */ "../components/Dashboard/Company/CompanyUsers.vue"),
       },
+      {
+        path: "companies/:id/files",
+        name: "company-files",
+        component: () =>
+          import(/* webpackChunkName: "company-files" */ "../components/Dashboard/Company/CompanyFiles.vue"),
+      },
     ],
   },
 ];

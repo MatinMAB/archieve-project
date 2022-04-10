@@ -80,7 +80,7 @@
           <v-icon left dark> mdi-account-group </v-icon>
           اعضاء
         </v-btn>
-        <v-btn color="light-green lighten-2" class="text-h5 ma-2">
+        <v-btn color="light-green lighten-2" class="text-h5 ma-2" @click="$router.push(`/dashboard/companies/${$route.params.id}/files`)">
           <v-icon left dark> mdi-file-multiple </v-icon>
           فایل ها
         </v-btn>
