@@ -41,7 +41,6 @@ const routes = [
   },
   {
     path: "/dashboard",
-    name: "dashboard",
     component: () =>
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
     children: [
@@ -74,6 +73,12 @@ const routes = [
         name: "company-categories",
         component: () =>
           import(/* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/ComapnyCategories.vue"),
+      },
+      {
+        path: "my-account",
+        name: "my-account",
+        component: () =>
+          import(/* webpackChunkName: "my-account" */ "../components/Dashboard/Account/MyAccount.vue"),
       },
     ],
   },
