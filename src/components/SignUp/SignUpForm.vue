@@ -75,7 +75,7 @@
               elevation="3"
               large
               color="pallete3"
-              @click="login()"
+              @click="signup()"
               ><span>ثبت نام</span></v-btn
             >
           </div>
@@ -109,7 +109,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    signup() {
       if (this.$refs.SignUpForm.validate()) {
         this.loading = true;
       } else {

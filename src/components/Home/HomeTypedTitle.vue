@@ -153,7 +153,6 @@ export default {
     font-size: 1.2rem;
   }
   .count-boxes {
-    
     gap: 1rem;
   }
 }

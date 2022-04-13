@@ -16,7 +16,6 @@
               <v-text-field
                 :value="user.email"
                 disabled
-                :rules="[(value) => !!value || 'فیلد ایمیل الزامی است']"
                 append-icon="mdi-email"
                 label="ایمیل"
                 outlined
@@ -66,7 +65,7 @@
               elevation="3"
               large
               color="pallete3"
-              @click="login()"
+              @click="confirmNewPassword()"
               ><span>ثبت رمز جدید</span></v-btn
             >
           </div>
@@ -91,7 +90,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    confirmNewPassword() {
       if (this.$refs.setNewPasswordForm.validate()) {
         this.loading = true;
       } else {

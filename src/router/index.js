@@ -60,19 +60,19 @@ const routes = [
         path: "companies/:id/users",
         name: "company-users",
         component: () =>
-          import(/* webpackChunkName: "company-users" */ "../components/Dashboard/Company/CompanyUsers.vue"),
+          import(/* webpackChunkName: "company-users" */ "../components/Dashboard/Company/CompanyInfo/CompanyUsers.vue"),
       },
       {
         path: "companies/:id/files",
         name: "company-files",
         component: () =>
-          import(/* webpackChunkName: "company-files" */ "../components/Dashboard/Company/CompanyFiles.vue"),
+          import(/* webpackChunkName: "company-files" */ "../components/Dashboard/Company/CompanyInfo/CompanyFiles.vue"),
       },
       {
         path: "companies/:id/categories",
         name: "company-categories",
         component: () =>
-          import(/* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/ComapnyCategories.vue"),
+          import(/* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/CompanyInfo/CompanyCategories.vue"),
       },
       {
         path: "my-account",

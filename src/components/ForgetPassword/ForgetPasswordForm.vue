@@ -1,6 +1,11 @@
 <template>
   <div class="forget-password-page">
-    <v-card class="forget-password-box pa-4 mx-2" color="pallete2" width="350" dark>
+    <v-card
+      class="forget-password-box pa-4 mx-2"
+      color="pallete2"
+      width="350"
+      dark
+    >
       <v-card-title class="forget-password-title mb-3"
         >فراموشی رمز عبور</v-card-title
       >
@@ -34,7 +39,6 @@
               ><span>بازیابی رمز عبور</span></v-btn
             >
           </div>
-  
         </v-container>
       </v-form>
     </v-card>
@@ -53,7 +57,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    Recovery() {
       if (this.$refs.forgetPasswordForm.validate()) {
         this.loading = true;
       } else {
