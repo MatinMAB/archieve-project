@@ -6,19 +6,34 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn icon @click="$router.push('/')">
-      <v-icon>mdi-home</v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-icon color="success">mdi-plus-box</v-icon>
+        </v-btn>
+      </template>
+      <span>ثبت شرکت جدید</span>
+    </v-tooltip>
 
-    <v-btn icon>
-      <v-badge content="1" value="1" color="pallete1" overlap>
-        <v-icon>mdi-bell</v-icon>
-      </v-badge>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-badge content="1" value="1" color="pallete1" overlap>
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
+        </v-btn>
+      </template>
+      <span>اعلان ها</span>
+    </v-tooltip>
 
-    <v-btn icon @click="logout()">
-      <v-icon>mdi-logout</v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on" @click="logout()">
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </template>
+      <span>خروج</span>
+    </v-tooltip>
   </v-app-bar>
 </template>
 
