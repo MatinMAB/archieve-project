@@ -6,14 +6,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
-          <v-icon color="success">mdi-plus-box</v-icon>
-        </v-btn>
-      </template>
-      <span>ثبت شرکت جدید</span>
-    </v-tooltip>
+    <AddNewCompanyIcon />
 
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
@@ -38,8 +31,13 @@
 </template>
 
 <script>
+import AddNewCompanyIcon from "./AddNewCompanyForm.vue";
+
 export default {
   name: "DashboardHeader",
+  components: {
+    AddNewCompanyIcon,
+  },
   data() {
     return {};
   },
