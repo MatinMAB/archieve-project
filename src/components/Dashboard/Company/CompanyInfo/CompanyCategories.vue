@@ -4,11 +4,9 @@
       <v-card-title class="text-h4 font-weight-bold">
         جدول دسته‌بندی های موجود در شرکت {{ $route.params.id }}
         <v-spacer></v-spacer>
-        <v-btn class="ma-3" depressed color="pallete4">
-          <span class="text-h6">افزودن دسته‌بندی جدید</span>
-          <v-icon class="mr-1">mdi-plus-circle</v-icon>
-        </v-btn>
+        <AddNewCategoryButton />
         <v-text-field
+          class="mr-2"
           v-model="search"
           label="جستجوی دسته‌بندی"
           append-icon="mdi-magnify"
@@ -100,8 +98,13 @@
 </template>
 
 <script>
+import AddNewCategoryButton from "./AddNewCategoryForm.vue";
+
 export default {
   name: "CompanyCategories",
+  components: {
+    AddNewCategoryButton,
+  },
   data() {
     return {
       search: "",
