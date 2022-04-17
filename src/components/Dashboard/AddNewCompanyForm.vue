@@ -51,7 +51,7 @@
                 </v-col>
                 <v-col cols="12">
                   <v-file-input
-                    v-model="company.imageUrl"
+                    v-model="company.image"
                     accept="image/png, image/jpeg, image/bmp"
                     prepend-inner-icon="mdi-image"
                     label="لوگوی شرکت"
@@ -97,7 +97,7 @@ export default {
       company: {
         name: "",
         phoneNumber: "",
-        imageUrl: null,
+        image: null,
         extraText: "",
       },
     };
@@ -113,9 +113,6 @@ export default {
     cancelAddCompany() {
       this.dialog = false;
     },
-  },
-  created() {
-    console.log(!!Number("dsa1698d9as62"));
   },
 };
 </script>

@@ -4,11 +4,9 @@
       <v-card-title class="text-h4 font-weight-bold">
         جدول فایل‌های موجود در شرکت {{ $route.params.id }}
         <v-spacer></v-spacer>
-        <v-btn class="ma-3" depressed color="pallete4">
-          <span class="text-h6">افزودن فایل جدید</span>
-          <v-icon class="mr-1">mdi-plus-circle</v-icon>
-        </v-btn>
+        <AddNewFileButton/>
         <v-text-field
+          class="mr-2"
           v-model="search"
           label="جستجوی فایل"
           append-icon="mdi-magnify"
@@ -98,8 +96,13 @@
 </template>
 
 <script>
+import AddNewFileButton from "./AddNewFileForm.vue";
+
 export default {
   name: "CompanyFiles",
+  components: {
+    AddNewFileButton,
+  },
   data() {
     return {
       search: "",
