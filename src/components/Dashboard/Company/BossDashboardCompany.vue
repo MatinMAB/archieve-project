@@ -142,4 +142,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.lists{
+  overflow-y: auto;
+}
+</style>
