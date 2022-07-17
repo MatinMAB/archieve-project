@@ -78,7 +78,11 @@
           <v-list-item-title class="text-h5">درخواست‌های من</v-list-item-title>
         </template>
 
-        <v-list-item class="hover-navigation-link">
+        <v-list-item class="hover-navigation-link" @click="$router.push('/dashboard/my-history-company')" :class="{
+            'active-navigation': $route.fullPath.includes(
+              '/dashboard/my-history-company'
+            ),
+          }">
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >درخواست ملحق شدن به شرکت</v-list-item-title
           >

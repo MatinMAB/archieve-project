@@ -39,6 +39,7 @@ const routes = [
         /* webpackChunkName: "set-new-password" */ "../views/SetNewPassword.vue"
       ),
   },
+
   {
     path: "/dashboard",
     component: () =>
@@ -48,37 +49,57 @@ const routes = [
         path: "",
         name: "dashboard-main",
         component: () =>
-          import(/* webpackChunkName: "dashboard-main" */ "../components/Dashboard/Main/DashboardMain.vue"),
+          import(
+            /* webpackChunkName: "dashboard-main" */ "../components/Dashboard/Main/DashboardMain.vue"
+          ),
       },
       {
         path: "companies/:id",
         name: "dashboard-company",
         component: () =>
-          import(/* webpackChunkName: "dashboard-company" */ "../components/Dashboard/Company/DashboardCompany.vue"),
+          import(
+            /* webpackChunkName: "dashboard-company" */ "../components/Dashboard/Company/DashboardCompany.vue"
+          ),
       },
       {
         path: "companies/:id/users",
         name: "company-users",
         component: () =>
-          import(/* webpackChunkName: "company-users" */ "../components/Dashboard/Company/CompanyInfo/CompanyUsers.vue"),
+          import(
+            /* webpackChunkName: "company-users" */ "../components/Dashboard/Company/CompanyInfo/CompanyUsers.vue"
+          ),
       },
       {
         path: "companies/:id/files",
         name: "company-files",
         component: () =>
-          import(/* webpackChunkName: "company-files" */ "../components/Dashboard/Company/CompanyInfo/CompanyFiles.vue"),
+          import(
+            /* webpackChunkName: "company-files" */ "../components/Dashboard/Company/CompanyInfo/CompanyFiles.vue"
+          ),
       },
       {
         path: "companies/:id/categories",
         name: "company-categories",
         component: () =>
-          import(/* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/CompanyInfo/CompanyCategories.vue"),
+          import(
+            /* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/CompanyInfo/CompanyCategories.vue"
+          ),
       },
       {
         path: "my-account",
         name: "my-account",
         component: () =>
-          import(/* webpackChunkName: "my-account" */ "../components/Dashboard/Account/MyAccount.vue"),
+          import(
+            /* webpackChunkName: "my-account" */ "../components/Dashboard/Account/MyAccount.vue"
+          ),
+      },
+      {
+        path: "my-history-company",
+        name: "my-history-company",
+        component: () =>
+          import(
+            /* webpackChunkName: "my-history-company'" */ "../components/Dashboard/MyHistory/MyHistoryCompany.vue"
+          ),
       },
     ],
   },
