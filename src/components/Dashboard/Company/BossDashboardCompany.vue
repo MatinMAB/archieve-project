@@ -60,19 +60,51 @@
         شرکت {{ $route.params.id }}
       </h2>
     </div>
-    <v-row class="mt-8 mx-16 mb-n12">
-      <v-col cols="12" md="5"> </v-col>
-      <v-col cols="0" md="2">
-        <v-btn tile color="success" block class="text-h5">
-          <v-icon left> mdi-plus-thick </v-icon>
-          ایجاد دسترسی
-        </v-btn>
-      </v-col>
-      <v-col cols="12" md="5"> </v-col>
-    </v-row>
-    <v-row class="mt-12 mx-16 mb-10">
-      <v-col cols="12" md="5">
-        <v-text-field
+    <v-form ref="access">
+      <v-row class="mt-8 mx-16 mb-n12">
+        <v-col cols="12" md="5"> </v-col>
+        <v-col cols="0" md="2">
+          <v-btn
+            tile
+            color="success"
+            block
+            class="text-h5"
+            @click="makeAccess()"
+          >
+            <v-icon left> mdi-plus-thick </v-icon>
+            ایجاد دسترسی
+          </v-btn>
+          <v-dialog v-model="dialog" max-width="290">
+            <v-card>
+              <v-card-title class="text-h4"> ایجاد دسترسی ؟ </v-card-title>
+
+              <v-card-text class="text-h5">
+                آیا از ایجاد دسترسی فایل / فایل‌های
+                <br><strong>{{ selectedFiles }}</strong><br>
+                برای عضو / اعضای
+                <br><strong>{{ selectedMembers }}</strong><br>
+                مطمئن هستید؟
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn color="red darken-1" text @click="dialog = false">
+                  مخالفم
+                </v-btn>
+
+                <v-btn color="green darken-1" text @click="dialog = false">
+                  موافقم
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-col>
+        <v-col cols="12" md="5"> </v-col>
+      </v-row>
+      <v-row class="mt-12 mx-16 mb-10">
+        <v-col cols="12" md="5">
+          <!-- <v-text-field
           filled
           label="جستجوی فایل"
           append-icon="mdi-magnify"
@@ -99,11 +131,40 @@
               </v-btn>
             </v-card-actions>
           </v-list-item>
-        </v-card>
-      </v-col>
-      <v-col cols="0" md="2"></v-col>
-      <v-col cols="12" md="5">
-        <v-text-field
+        </v-card> -->
+          <v-container fluid>
+            <v-combobox
+              v-model="selectedFiles"
+              :items="files"
+              :search-input.sync="search"
+              :rules="[
+                (value) => value.length > 0 || 'انتخاب فایل الزامی است.',
+              ]"
+              hint="فایل های خود را جستجو و انتخاب کنید."
+              label="جستجوی فایل"
+              multiple
+              persistent-hint
+              small-chips
+              deletable-chips
+              color="#ada84e"
+              item-color="#ada84e"
+            >
+              <template v-slot:no-data>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      هیچ نتیجه ای برای "<strong>{{ search }}</strong
+                      >" یافت نشد
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+            </v-combobox>
+          </v-container>
+        </v-col>
+        <v-col cols="0" md="2"></v-col>
+        <v-col cols="12" md="5">
+          <!-- <v-text-field
           filled
           label="جستجوی عضو"
           append-icon="mdi-magnify"
@@ -130,20 +191,85 @@
               </v-btn>
             </v-card-actions>
           </v-list-item>
-        </v-card>
-      </v-col>
-    </v-row>
+        </v-card> -->
+          <v-container fluid>
+            <v-combobox
+              v-model="selectedMembers"
+              :items="members"
+              :search-input.sync="search"
+              :rules="[(value) => value.length > 0 || 'انتخاب عضو الزامی است.']"
+              hint="اعضای خود را جستجو و انتخاب کنید."
+              label="جستجوی عضو"
+              multiple
+              persistent-hint
+              small-chips
+              deletable-chips
+              color="#ada84e"
+              item-color="#ada84e"
+            >
+              <template v-slot:no-data>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      هیچ نتیجه ای برای "<strong>{{ search }}</strong
+                      >" یافت نشد
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+            </v-combobox>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-form>
   </div>
 </template>
 
 <script>
 export default {
   name: "BossDashboardCompany",
+  data: () => ({
+    dialog: false,
+    files: [
+      "Gaming",
+      "Programming",
+      "Vue",
+      "Vuetify",
+      "Ali",
+      "Matin",
+      "Sajad",
+      "Masoum",
+      "Esameil",
+    ],
+    selectedFiles: [],
+    members: [
+      "Gaming",
+      "Programming",
+      "Vue",
+      "Vuetify",
+      "Ali",
+      "Matin",
+      "Sajad",
+      "Masoum",
+      "Esameil",
+    ],
+    selectedMembers: [],
+    search: null,
+  }),
+  methods: {
+    makeAccess() {
+      if (this.$refs.access.validate()) {
+        this.dialog = true;
+      } else {
+        this.$refs.access.validate();
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.lists{
+.lists {
   overflow-y: auto;
 }
 </style>
