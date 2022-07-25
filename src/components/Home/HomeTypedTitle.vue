@@ -48,7 +48,7 @@ export default {
   right: 50%;
   z-index: 99;
   transform: translate(50%, -50%);
-  color: #eeedde;
+  color: rgb(231, 250, 251);
   font-size: 2.4rem;
   display: flex;
   justify-content: center;
@@ -61,7 +61,7 @@ export default {
   transform: translateX(-120rem);
   opacity: 0;
   animation: homeTitle 1s ease-in-out forwards 3s;
-  color: #e0ddaa;
+  color: rgb(155, 250, 255);
   text-align: center;
 }
 .count-boxes {
@@ -88,7 +88,7 @@ export default {
   animation: countBox 1s ease-in-out forwards 4.4s;
 }
 .count-box span {
-  color: #eeedde;
+  color: rgb(155, 250, 255);
   font-size: 1.8rem;
 }
 

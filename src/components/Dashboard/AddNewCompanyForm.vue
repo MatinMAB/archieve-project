@@ -7,7 +7,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon color="success">mdi-plus-box</v-icon>
+                  <v-icon color="light-green accent-2">mdi-plus-box</v-icon>
                 </v-btn>
               </template>
               <span>ثبت شرکت جدید</span>
@@ -122,6 +122,6 @@ export default {
   margin-left: 1.2rem;
 }
 .new-company-title {
-  color: #c2bc5b;
+  color: #5fb7e4;
 }
 </style>

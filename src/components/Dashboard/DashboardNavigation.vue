@@ -28,7 +28,7 @@
         <v-list-item-title class="text-h5">داشبورد</v-list-item-title>
       </v-list-item>
 
-      <v-list-group prepend-icon="mdi-domain" color="#ada84e">
+      <v-list-group prepend-icon="mdi-domain" color="#fff">
         <template v-slot:activator>
           <v-list-item-title class="text-h5">شرکت ها</v-list-item-title>
         </template>
@@ -73,7 +73,7 @@
           >
         </v-list-item>
       </v-list-group>
-      <v-list-group prepend-icon="mdi-history" color="#ada84e">
+      <v-list-group prepend-icon="mdi-history" color="#fff">
         <template v-slot:activator>
           <v-list-item-title class="text-h5">درخواست‌های من</v-list-item-title>
         </template>
@@ -93,7 +93,7 @@
           >
         </v-list-item>
       </v-list-group>
-      <v-list-group prepend-icon="mdi-archive-eye-outline" color="#ada84e">
+      <v-list-group prepend-icon="mdi-archive-eye-outline" color="#fff">
         <template v-slot:activator class="hover-navigation-link">
           <v-list-item-title class="text-h5"
             >درخواست‌های دیگران</v-list-item-title
@@ -162,6 +162,6 @@ export default {
   cursor: pointer;
 }
 .hover-navigation-link:hover {
-  background-color: #d8d5a4;
+  background-color: rgba(255, 255, 255, 0.367);
 }
 </style>

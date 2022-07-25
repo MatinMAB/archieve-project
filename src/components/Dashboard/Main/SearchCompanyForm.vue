@@ -9,7 +9,7 @@
           v-model="searchedText"
           @input="find()"
           @focus="find()"
-          color="#ada84e"
+          color="#5fb7e4"
           background-color="pallete4"
           clearable
           ref="searchInput"

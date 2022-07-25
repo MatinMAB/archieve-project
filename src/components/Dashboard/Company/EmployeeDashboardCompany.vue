@@ -22,7 +22,7 @@
             label="جستجوی فایل"
             append-icon="mdi-arrow-left-bold-circle"
             @click:append="search()"
-            color="#ada84e"
+            color="#5fb7e4"
             background-color="pallete4"
             clearable
           ></v-text-field>

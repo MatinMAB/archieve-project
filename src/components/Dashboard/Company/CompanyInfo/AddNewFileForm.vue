@@ -116,6 +116,6 @@ export default {
 
 <style scoped>
 .new-file-title {
-  color: #c2bc5b;
+  color: #5fb7e4
 }
 </style>

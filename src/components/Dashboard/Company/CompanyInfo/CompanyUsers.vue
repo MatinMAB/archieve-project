@@ -8,7 +8,7 @@
           v-model="search"
           label="جستجوی کاربر"
           append-icon="mdi-magnify"
-          color="#ada84e"
+          color="#5fb7e4"
           clearable
         ></v-text-field>
       </v-card-title>

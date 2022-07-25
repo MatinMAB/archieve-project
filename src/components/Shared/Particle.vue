@@ -30,7 +30,7 @@ export default {
         },
         particles: {
           color: {
-            value: "#E0DDAA",
+            value: "#5fb7e4",
             animation: {
               h: {
                 enable: true,
@@ -40,7 +40,7 @@ export default {
           },
           links: {
             color: {
-              value: "#EEEDDE",
+              value: "#CCFFFF",
             },
             enable: true,
             opacity: 0.4,

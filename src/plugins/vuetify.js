@@ -10,8 +10,8 @@ export default new Vuetify({
       light: {
         pallete1: "#141E27",
         pallete2:  "#203239",
-        pallete3: "#E0DDAA",
-        pallete4: "#EEEDDE",
+        pallete3: "#5fb7e4",
+        pallete4: "#CCFFFF",
       },
     },
   },

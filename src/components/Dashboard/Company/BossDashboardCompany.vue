@@ -108,7 +108,7 @@
           filled
           label="جستجوی فایل"
           append-icon="mdi-magnify"
-          color="#ada84e"
+          color="#5fb7e4"
           background-color="pallete4"
           clearable
         ></v-text-field>
@@ -146,8 +146,8 @@
               persistent-hint
               small-chips
               deletable-chips
-              color="#ada84e"
-              item-color="#ada84e"
+              color="#5fb7e4"
+              item-color="#5fb7e4"
             >
               <template v-slot:no-data>
                 <v-list-item>
@@ -168,7 +168,7 @@
           filled
           label="جستجوی عضو"
           append-icon="mdi-magnify"
-          color="#ada84e"
+          color="#5fb7e4"
           background-color="pallete4"
           clearable
         ></v-text-field>
@@ -204,8 +204,8 @@
               persistent-hint
               small-chips
               deletable-chips
-              color="#ada84e"
-              item-color="#ada84e"
+              color="#5fb7e4"
+              item-color="#5fb7e4"
             >
               <template v-slot:no-data>
                 <v-list-item>

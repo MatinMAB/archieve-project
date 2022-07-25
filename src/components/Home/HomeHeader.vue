@@ -76,7 +76,7 @@ export default {
   animation: navbar 0.5s ease-in-out forwards;
 }
 .toolbar-title {
-  color: #eeedde;
+  color: rgb(231, 250, 251);
 }
 
 @keyframes navbar {
