@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <p class="text-h5 font-weight-bold my-8">
-      تاریخچه درخواست ملحق شدن من به شرکت
+      تاریخچه درخواست مجوز دسترسی من به فایل
     </p>
     <v-row align="center">
       <v-col cols="12" lg="4" md="6">
@@ -55,7 +55,7 @@
 
         <template v-slot:item.name="{ item }">
           <span class="text-h6">
-            <v-icon right> mdi-domain </v-icon>
+            <v-icon right> mdi-file </v-icon>
             {{ item.name }}</span>
         </template>
 
@@ -104,7 +104,7 @@ export default {
       ],
       headers: [
         {
-          text: "نام شرکت",
+          text: "نام فایل",
           align: "start",
           sortable: true,
           value: "name",

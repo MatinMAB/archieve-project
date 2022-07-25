@@ -87,7 +87,11 @@
             >درخواست ملحق شدن به شرکت</v-list-item-title
           >
         </v-list-item>
-        <v-list-item class="hover-navigation-link">
+        <v-list-item  class="hover-navigation-link" @click="$router.push('/dashboard/my-history-file')" :class="{
+            'active-navigation': $route.fullPath.includes(
+              '/dashboard/my-history-file'
+            ),
+          }">
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >درخواست دسترسی به فایل</v-list-item-title
           >
