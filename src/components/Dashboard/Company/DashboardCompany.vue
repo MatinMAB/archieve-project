@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      isBoss: true,
+      isBoss: false,
     };
   },
 };

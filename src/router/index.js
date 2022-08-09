@@ -109,6 +109,23 @@ const routes = [
             /* webpackChunkName: "my-history-file'" */ "../components/Dashboard/MyHistory/MyHistoryFile.vue"
           ),
       },
+      {
+        path: "requests-company",
+        name: "requests-company",
+        component: () =>
+          import(
+            /* webpackChunkName: "requests-company'" */ "../components/Dashboard/Requests/RequestsForCompany.vue"
+          ),
+      },
+      {
+        path: "requests-file",
+        name: "requests-file",
+        component: () =>
+          import(
+            /* webpackChunkName: "requests-file'" */ "../components/Dashboard/Requests/RequestsForFile.vue"
+          ),
+      },
+     
     ],
   },
 ];

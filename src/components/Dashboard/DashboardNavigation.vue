@@ -104,12 +104,20 @@
           >
         </template>
 
-        <v-list-item class="hover-navigation-link">
+        <v-list-item class="hover-navigation-link" @click="$router.push('/dashboard/requests-company')" :class="{
+            'active-navigation': $route.fullPath.includes(
+              '/dashboard/requests-company'
+            ),
+          }">
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >بررسی درخواست به شرکت</v-list-item-title
           >
         </v-list-item>
-        <v-list-item class="hover-navigation-link">
+        <v-list-item  class="hover-navigation-link" @click="$router.push('/dashboard/requests-file')" :class="{
+            'active-navigation': $route.fullPath.includes(
+              '/dashboard/requests-file'
+            ),
+          }">
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >بررسی دسترسی به فایل</v-list-item-title
           >
