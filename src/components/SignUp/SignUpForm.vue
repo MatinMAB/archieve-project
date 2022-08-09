@@ -68,6 +68,9 @@
               ></v-text-field>
             </v-col>
           </v-row>
+          <p v-show="error" class="subtitle-1 text-center red--text">
+            {{ error }}
+          </p>
           <div class="signup-button">
             <v-btn
               :loading="loading"
@@ -108,6 +111,7 @@ export default {
       },
       showPassword: false,
       loading: false,
+      error: "",
     };
   },
   methods: {
@@ -122,10 +126,34 @@ export default {
             password2: this.user.againPassword,
           })
           .then((response) => {
-            this.loading = false;
+            if (response.statusText === "Created") {
+              console.log(response.data);
+              localStorage.setItem("user", JSON.stringify(response.data));
+              this.loading = false;
+              this.error = "";
+              this.$router.push("/dashboard");
+            } else if (response.data.username && response.data.email) {
+              this.error =
+                "نام کاربری و ایمیل وارد شده قبلا در سیستم ثبت شده است";
+              console.log(response);
+              this.loading = false;
+            } else if (response.data.username && !response.data.email){
+              this.error =
+                "نام کاربری وارد شده قبلا در سیستم ثبت شده است";
+              console.log(response);
+              this.loading = false;
+            }
+             else if (!response.data.username && response.data.email){
+              this.error =
+                "ایمیل وارد شده قبلا در سیستم ثبت شده است";
+              console.log(response);
+              this.loading = false;
+            }
           })
           .catch((res) => {
-            console.log(res.data);
+            console.log(response);
+            this.error = "در برقراری ارتباط با سرور مشکلی پیش آمده است";
+            this.loading = false;
           });
       } else {
         this.$refs.SignUpForm.validate();
