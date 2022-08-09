@@ -16,9 +16,9 @@
           color="pallette3"
           item-color="pallette3"
           :background-color="
-            e1 === 'درخواست‌های موفق'
+            e1 === 'درخواست‌های تایید شده'
               ? 'light-green lighten-3'
-              : e1 === 'درخواست‌های ناموفق'
+              : e1 === 'درخواست‌های تایید نشده'
               ? 'red lighten-4'
               : e1 === 'درخواست‌های در انتظار'
               ? 'light-blue lighten-4'
@@ -75,13 +75,13 @@
               <v-icon color="red accent-3">mdi-close-outline</v-icon>
             </v-btn>
           </span>
-          <span class="text-h6 d-flex justify-center" v-else-if="item.type === 'موفق'">
+          <span class="text-h6 d-flex justify-center" v-else-if="item.type === 'تایید شده'">
             <v-btn icon disabled>
               <v-icon color="grey lighten-1 ">mdi-check-outline</v-icon>
             </v-btn>
            
           </span>
-          <span class="text-h6 d-flex justify-center" v-else-if="item.type === 'نا موفق'">
+          <span class="text-h6 d-flex justify-center" v-else-if="item.type === 'تایید نشده'">
             
             <v-btn icon disabled>
               <v-icon color="grey lighten-1 ">mdi-close-outline</v-icon>
@@ -114,13 +114,13 @@ export default {
     return {
       e1: "درخواست‌های درانتظار",
       states: [
-        "درخواست‌های موفق",
-        "درخواست‌های ناموفق",
+        "درخواست‌های تایید شده",
+        "درخواست‌های تایید نشده",
         "درخواست‌های در انتظار",
       ],
       headers: [
         {
-          text: "نام درخواست‌ کننده",
+          text: "مشخصات درخواست‌ کننده",
           align: "start",
           sortable: true,
           value: "name",
@@ -158,15 +158,15 @@ export default {
         },
         {
           name: "Eclair",
-          type: "موفق",
+          type: "تایید شده",
         },
         {
           name: "Cupcake",
-          type: "نا موفق",
+          type: "تایید نشده",
         },
         {
           name: "Gingerbread",
-          type: "نا موفق",
+          type: "تایید نشده",
         },
         {
           name: "Jelly bean",
@@ -174,19 +174,19 @@ export default {
         },
         {
           name: "Lollipop",
-          type: "موفق",
+          type: "تایید شده",
         },
         {
           name: "Honeycomb",
-          type: "نا موفق",
+          type: "تایید نشده",
         },
         {
           name: "Donut",
-          type: "نا موفق",
+          type: "تایید نشده",
         },
         {
           name: "KitKat",
-          type: "موفق",
+          type: "تایید شده",
         },
       ],
       filteredCompanies: [],
@@ -194,7 +194,7 @@ export default {
   },
   methods: {
     getColor(type) {
-      if (type === "نا موفق") return "red";
+      if (type === "تایید نشده") return "red";
       else if (type === "در انتظار") return "blue";
       else return "green";
     },
@@ -204,13 +204,13 @@ export default {
         this.filteredCompanies = this.desserts.filter(
           (request) => request.type === "در انتظار"
         );
-      } else if (this.e1 === "درخواست‌های موفق") {
+      } else if (this.e1 === "درخواست‌های تایید شده") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "موفق"
+          (request) => request.type === "تایید شده"
         );
-      } else if (this.e1 === "درخواست‌های ناموفق") {
+      } else if (this.e1 === "درخواست‌های تایید نشده") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "نا موفق"
+          (request) => request.type === "تایید نشده"
         );
       } else {
         this.filteredCompanies = this.desserts;
