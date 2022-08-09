@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "ُSignUpForm",
   data() {
@@ -112,6 +114,19 @@ export default {
     signup() {
       if (this.$refs.SignUpForm.validate()) {
         this.loading = true;
+        axios
+          .post("http://127.0.0.1:8008/user/register/", {
+            username: this.user.name,
+            email: this.user.email,
+            password: this.user.password,
+            password2: this.user.againPassword,
+          })
+          .then((response) => {
+            this.loading = false;
+          })
+          .catch((res) => {
+            console.log(res.data);
+          });
       } else {
         this.$refs.SignUpForm.validate();
       }
