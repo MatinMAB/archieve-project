@@ -39,11 +39,11 @@
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.type="{ header }">
+        <template v-slot:header.status="{ header }">
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.view="{ header }">
+        <template v-slot:header.date="{ header }">
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
@@ -56,18 +56,21 @@
         <template v-slot:item.name="{ item }">
           <span class="text-h6">
             <v-icon right> mdi-account </v-icon>
-            {{ item.name }}</span
+            {{ item.user }}</span
           >
         </template>
 
-        <template v-slot:item.type="{ item }">
-          <v-chip :color="getColor(item.type)" dark>
-            {{ item.type }}
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="getColor(item.status)" dark>
+            {{ item.status === 'waiting' ? 'در انتظار' : item.status === 'accepted' ? 'تایید شده' : 'تایید نشده' }}
           </v-chip>
         </template>
 
         <template v-slot:item.situation="{ item }">
-          <span class="text-h6 d-flex justify-center" v-if="item.type === 'در انتظار'">
+          <span
+            class="text-h6 d-flex justify-center"
+            v-if="item.status === 'waiting'"
+          >
             <v-btn icon>
               <v-icon color="green accent-3">mdi-check-outline</v-icon>
             </v-btn>
@@ -75,25 +78,27 @@
               <v-icon color="red accent-3">mdi-close-outline</v-icon>
             </v-btn>
           </span>
-          <span class="text-h6 d-flex justify-center" v-else-if="item.type === 'تایید شده'">
+          <span
+            class="text-h6 d-flex justify-center"
+            v-else-if="item.status === 'accepted'"
+          >
             <v-btn icon disabled>
               <v-icon color="grey lighten-1 ">mdi-check-outline</v-icon>
             </v-btn>
-           
           </span>
-          <span class="text-h6 d-flex justify-center" v-else-if="item.type === 'تایید نشده'">
-            
+          <span
+            class="text-h6 d-flex justify-center"
+            v-else-if="item.status === 'failed'"
+          >
             <v-btn icon disabled>
               <v-icon color="grey lighten-1 ">mdi-close-outline</v-icon>
             </v-btn>
           </span>
         </template>
 
-        <template v-slot:item.view="{ item }">
+        <template v-slot:item.date="{ item }">
           <span class="text-h6">
-            <v-btn icon color="blue accent-3">
-              <v-icon>mdi-alert-decagram</v-icon>
-            </v-btn>
+            {{item.created.substring(0,10)}}
           </span>
         </template>
 
@@ -109,6 +114,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -127,17 +134,17 @@ export default {
         },
         {
           text: "نوع درخواست",
-          value: "type",
+          value: "status",
           sortable: false,
           align: "center",
           width: "150px",
         },
         {
-          text: "بررسی",
-          value: "view",
+          text: "تاریخ",
+          value: "date",
           sortable: false,
           align: "center",
-          width: "90px",
+          width: "120px",
         },
         {
           text: "وضعیت",
@@ -147,78 +154,50 @@ export default {
           width: "130px",
         },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          type: "در انتظار",
-        },
-        {
-          name: "Ice cream sandwich",
-          type: "در انتظار",
-        },
-        {
-          name: "Eclair",
-          type: "تایید شده",
-        },
-        {
-          name: "Cupcake",
-          type: "تایید نشده",
-        },
-        {
-          name: "Gingerbread",
-          type: "تایید نشده",
-        },
-        {
-          name: "Jelly bean",
-          type: "در انتظار",
-        },
-        {
-          name: "Lollipop",
-          type: "تایید شده",
-        },
-        {
-          name: "Honeycomb",
-          type: "تایید نشده",
-        },
-        {
-          name: "Donut",
-          type: "تایید نشده",
-        },
-        {
-          name: "KitKat",
-          type: "تایید شده",
-        },
-      ],
+      desserts: [],
       filteredCompanies: [],
+      userData: JSON.parse(localStorage.getItem("user")) || false,
     };
   },
   methods: {
-    getColor(type) {
-      if (type === "تایید نشده") return "red";
-      else if (type === "در انتظار") return "blue";
+    getColor(status) {
+      if (status === "failed") return "red";
+      else if (status === "waiting") return "blue";
       else return "green";
     },
     changeFilter() {
-      console.log("salam");
       if (this.e1 === "درخواست‌های در انتظار") {
-        this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "در انتظار"
-        );
+        this.filteredCompanies = [...this.desserts.filter(
+          (request) => request.status === "waiting"
+        )];
       } else if (this.e1 === "درخواست‌های تایید شده") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "تایید شده"
+          (request) => request.status === "accepted"
         );
       } else if (this.e1 === "درخواست‌های تایید نشده") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "تایید نشده"
+          (request) => request.status === "failed"
         );
       } else {
-        this.filteredCompanies = this.desserts;
+        this.filteredCompanies = [...this.desserts];
       }
     },
   },
   created() {
-    this.changeFilter();
+    
+    axios
+      .get("http://127.0.0.1:8008/request/receive/", {
+        headers: {
+          Authorization: "Bearer " + this.userData.tokens.access,
+        },
+      })
+      .then((response) => {
+        this.desserts = response.data;
+        this.changeFilter();
+      })
+      .catch((response) => {
+        console.log(response.data);
+      });
   },
 };
 </script>

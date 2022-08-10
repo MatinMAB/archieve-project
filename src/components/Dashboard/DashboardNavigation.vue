@@ -209,7 +209,6 @@ export default {
       })
       .then((response) => {
         this.allMyCompanies = response.data;
-        console.log(this.allMyCompanies);
       })
       .catch((response) => {
         console.log(response.data);
