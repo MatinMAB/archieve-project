@@ -32,8 +32,7 @@
         :headers="headers"
         :items="filteredCompanies"
         class="elevation-1 mb-10"
-        :loading="filteredCompanies"
-        
+        :loading="filteredCompanies" 
         loading-text="موردی یافت نشد"
         :footer-props="{ 'items-per-page-text': 'تعداد فایل در هر صفحه' }"
       >

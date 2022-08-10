@@ -52,16 +52,13 @@
           </v-list-item>
         </div>
         <div v-else>
-          <v-list-item
-          
-          class="hover-navigation-link"
-        >
-          <v-list-item-title class="pr-8 cursor-pointer subtitle-2">
-            در حال حاضر در هیچ شرکتی عضو نمی باشید
-          </v-list-item-title>
-        </v-list-item></div>
+          <v-list-item class="hover-navigation-link">
+            <v-list-item-title class="pr-8 cursor-pointer subtitle-2">
+              در حال حاضر در هیچ شرکتی عضو نمی باشید
+            </v-list-item-title>
+          </v-list-item>
+        </div>
 
-        
         <!-- <v-list-item
           class="hover-navigation-link"
           @click="$router.push('/dashboard/companies/2')"
@@ -174,7 +171,7 @@
       </v-list-item>
       <v-list-item
         class="cursor-pointer hover-navigation-link"
-        @click="$router.push('/login')"
+        @click="logout()"
       >
         <v-list-item-icon>
           <v-icon>mdi-logout</v-icon>
@@ -199,6 +196,12 @@ export default {
   },
   props: {
     drawer: Boolean,
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('user')
+      this.$router.push("/login");
+    },
   },
   created() {
     axios

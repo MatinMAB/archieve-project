@@ -31,6 +31,8 @@
       <v-data-table
         :headers="headers"
         :items="filteredCompanies"
+        :loading="filteredCompanies" 
+        loading-text="موردی یافت نشد"
         class="elevation-1 mb-10"
         :footer-props="{ 'items-per-page-text': 'تعداد فایل در هر صفحه' }"
       >
