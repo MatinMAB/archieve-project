@@ -32,6 +32,9 @@
         :headers="headers"
         :items="filteredCompanies"
         class="elevation-1 mb-10"
+        :loading="filteredCompanies"
+        
+        loading-text="موردی یافت نشد"
         :footer-props="{ 'items-per-page-text': 'تعداد فایل در هر صفحه' }"
       >
         <!-- data Table Headers -->
@@ -39,11 +42,11 @@
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.type="{ header }">
+        <template v-slot:header.status="{ header }">
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.view="{ header }">
+        <template v-slot:header.date="{ header }">
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
@@ -56,28 +59,33 @@
         <template v-slot:item.name="{ item }">
           <span class="text-h6">
             <v-icon right> mdi-domain </v-icon>
-            {{ item.name }}</span>
+            {{ item.company }}</span
+          >
         </template>
 
-        <template v-slot:item.type="{ item }">
-          <v-chip :color="getColor(item.type)" dark>
-            {{ item.type }}
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="getColor(item.status)" dark>
+            {{
+              item.status === "waiting"
+                ? "در انتظار"
+                : item.status === "accepted"
+                ? "تایید شده"
+                : "تایید نشده"
+            }}
           </v-chip>
         </template>
 
         <template v-slot:item.delete="{ item }">
           <span class="text-h6">
-            <v-btn v-if="item.type === 'در انتظار'" icon color="red accent-3">
+            <v-btn v-if="item.status === 'waiting'" icon color="red accent-3">
               <v-icon>mdi-trash-can</v-icon>
             </v-btn>
           </span>
         </template>
 
-        <template v-slot:item.view="{ item }">
+        <template v-slot:item.date="{ item }">
           <span class="text-h6">
-            <v-btn icon color="blue accent-3">
-              <v-icon>mdi-alert-decagram</v-icon>
-            </v-btn>
+            {{ item.created.substring(0, 10) }}
           </span>
         </template>
 
@@ -93,6 +101,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -111,17 +121,17 @@ export default {
         },
         {
           text: "نوع درخواست",
-          value: "type",
+          value: "status",
           sortable: false,
           align: "center",
           width: "150px",
         },
         {
-          text: "بررسی",
-          value: "view",
+          text: "تاریخ",
+          value: "date",
           sortable: false,
           align: "center",
-          width: "90px",
+          width: "120px",
         },
         {
           text: "حذف",
@@ -131,70 +141,29 @@ export default {
           width: "90px",
         },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          type: "در انتظار",
-        },
-        {
-          name: "Ice cream sandwich",
-          type: "در انتظار",
-        },
-        {
-          name: "Eclair",
-          type: "موفق",
-        },
-        {
-          name: "Cupcake",
-          type: "نا موفق",
-        },
-        {
-          name: "Gingerbread",
-          type: "نا موفق",
-        },
-        {
-          name: "Jelly bean",
-          type: "در انتظار",
-        },
-        {
-          name: "Lollipop",
-          type: "موفق",
-        },
-        {
-          name: "Honeycomb",
-          type: "نا موفق",
-        },
-        {
-          name: "Donut",
-          type: "نا موفق",
-        },
-        {
-          name: "KitKat",
-          type: "موفق",
-        },
-      ],
+      desserts: [{}],
       filteredCompanies: [],
+      userData: JSON.parse(localStorage.getItem("user")) || false,
     };
   },
   methods: {
-    getColor(type) {
-      if (type === "نا موفق") return "red";
-      else if (type === "در انتظار") return "blue";
+    getColor(status) {
+      if (status === "failed") return "red";
+      else if (status === "waiting") return "blue";
       else return "green";
     },
     changeFilter() {
-      console.log("salam");
       if (this.e1 === "درخواست‌های در انتظار") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "در انتظار"
+          (request) => request.status === "waiting"
         );
       } else if (this.e1 === "درخواست‌های موفق") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "موفق"
+          (request) => request.status === "accepted"
         );
       } else if (this.e1 === "درخواست‌های ناموفق") {
         this.filteredCompanies = this.desserts.filter(
-          (request) => request.type === "نا موفق"
+          (request) => request.status === "failed"
         );
       } else {
         this.filteredCompanies = this.desserts;
@@ -202,7 +171,19 @@ export default {
     },
   },
   created() {
-    this.changeFilter();
+    axios
+      .get("http://127.0.0.1:8008/request/receive/me/", {
+        headers: {
+          Authorization: "Bearer " + this.userData.tokens.access,
+        },
+      })
+      .then((response) => {
+        this.desserts = response.data;
+        this.changeFilter();
+      })
+      .catch((response) => {
+        console.log(response.data);
+      });
   },
 };
 </script>
