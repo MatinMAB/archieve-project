@@ -25,7 +25,6 @@
           class="mx-auto searchedCompany"
           :class="{ active: isActive }"
           max-width="490"
-          
           tile
         >
           <v-list id="list" max-height="280">
@@ -33,13 +32,10 @@
               <v-list-item
                 v-for="(company, i) in searchedCompanies"
                 :key="i"
-                @click="sendRequest()"
+                @click="sendRequest(company)"
               >
-                <v-list-item-icon>
-                  <v-icon v-text="company.icon"></v-icon>
-                </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-text="company.text"></v-list-item-title>
+                  <v-list-item-title v-text="company.name"></v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -54,54 +50,118 @@
       </v-col>
       <v-col cols="0" lg="3" sm="2"></v-col>
     </v-row>
+    <v-row justify="center">
+      <v-alert type="success" v-if="suceessRequest"
+        >درخواست شما با موفقیت ارسال شد</v-alert
+      >
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card>
+          <v-card-title class="text-h5">
+            آیا از ارسال درخواست مطمئن هستید ؟
+          </v-card-title>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="red darken-1" text @click="cancelSending()">
+              مخالفم
+            </v-btn>
+
+            <v-btn color="green darken-1" text @click="sending()">
+              موافقم
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </v-form>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "SearchCompanyForm",
   data() {
     return {
       searchedText: "",
-      companies: [
-        { text: "Real-Time", icon: "mdi-clock" },
-        { text: "Audience", icon: "mdi-account" },
-        { text: "Conversions", icon: "mdi-flag" },
-        { text: "Real-Time", icon: "mdi-clock" },
-        { text: "Audience", icon: "mdi-account" },
-        { text: "Conversions", icon: "mdi-flag" },
-        { text: "Real-Time", icon: "mdi-clock" },
-        { text: "Audience", icon: "mdi-account" },
-        { text: "Conversions", icon: "mdi-flag" },
-        { text: "Real-Time", icon: "mdi-clock" },
-        { text: "Audience", icon: "mdi-account" },
-        { text: "Conversions", icon: "mdi-flag" },
-      ],
+      companies: [{}],
       searchedCompanies: [],
       isActive: false,
+      userData: JSON.parse(localStorage.getItem("user")) || false,
+      dialog: false,
+      selectedId: "",
+      suceessRequest: false,
     };
   },
   methods: {
     find() {
       this.searchedCompanies = this.companies.filter((company) =>
-        company.text.toLowerCase().includes(this.searchedText.toLowerCase())
+        company.name.toLowerCase().includes(this.searchedText.toLowerCase())
       );
       this.isActive = true;
     },
     closeBox() {
       this.isActive = false;
     },
-    sendRequest() {
-      console.log("send request to company");
+    sendRequest(selected) {
+      this.dialog = true;
+      this.selectedId = selected.id;
     },
+    sending() {
+      axios
+        .post(
+          "http://127.0.0.1:8008/request/create/",
+          {
+            company: this.selectedId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        )
+        .then((response) => {
+          this.companies = response.data;
+          this.dialog = false;
+          this.isActive = false;
+          this.suceessRequest = true;
+          setTimeout(() => {
+            this.suceessRequest = false;
+          }, 5000);
+          console.log(this.companies);
+        })
+        .catch((response) => {
+          console.log(response.data);
+        });
+    },
+    cancelSending() {
+      this.dialog = false;
+    },
+  },
+  created() {
+    console.log(this.userData);
+    axios
+      .get("http://127.0.0.1:8008/company/receive/all/", {
+        headers: {
+          Authorization: "Bearer " + this.userData.tokens.access,
+        },
+      })
+      .then((response) => {
+        this.companies = response.data;
+        console.log(this.companies);
+      })
+      .catch((response) => {
+        console.log(response.data);
+      });
   },
 };
 </script>
 
 <style scoped>
-
-#list{
-  overflow :auto;
+#list {
+  overflow: auto;
 }
 .searchedBox {
   position: relative;

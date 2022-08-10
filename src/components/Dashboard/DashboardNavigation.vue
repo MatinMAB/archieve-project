@@ -3,12 +3,13 @@
     <template v-slot:prepend>
       <v-list-item two-line>
         <v-list-item-avatar>
-          <img src="https://randomuser.me/api/portraits/women/75.jpg" />
+          <img src="https://randomuser.me/api/portraits/men/75.jpg" />
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="text-h5">نام کاربری</v-list-item-title>
-          <v-list-item-subtitle>نقش</v-list-item-subtitle>
+          <v-list-item-title class="text-h5">{{
+            userData.user.username
+          }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -33,20 +34,35 @@
           <v-list-item-title class="text-h5">شرکت ها</v-list-item-title>
         </template>
 
-        <v-list-item
-          class="hover-navigation-link"
-          @click="$router.push('/dashboard/companies/1')"
-          :class="{
-            'active-navigation': $route.fullPath.includes(
-              '/dashboard/companies/1'
-            ),
-          }"
-        >
-          <v-list-item-title class="text-h6 pr-8 cursor-pointer"
-            >شرکت 1</v-list-item-title
+        <div v-if="allMyCompanies.length > 0">
+          <v-list-item
+            v-for="(myCompany, i) in allMyCompanies"
+            :key="i"
+            class="hover-navigation-link"
+            @click="$router.push(`/dashboard/companies/${myCompany.name}`)"
+            :class="{
+              'active-navigation': $route.fullPath.includes(
+                `/dashboard/companies/${myCompany.name}`
+              ),
+            }"
           >
-        </v-list-item>
-        <v-list-item
+            <v-list-item-title class="text-h6 pr-8 cursor-pointer">{{
+              myCompany.name
+            }}</v-list-item-title>
+          </v-list-item>
+        </div>
+        <div v-else>
+          <v-list-item
+          
+          class="hover-navigation-link"
+        >
+          <v-list-item-title class="pr-8 cursor-pointer subtitle-2">
+            در حال حاضر در هیچ شرکتی عضو نمی باشید
+          </v-list-item-title>
+        </v-list-item></div>
+
+        
+        <!-- <v-list-item
           class="hover-navigation-link"
           @click="$router.push('/dashboard/companies/2')"
           :class="{
@@ -71,27 +87,35 @@
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >شرکت 3</v-list-item-title
           >
-        </v-list-item>
+        </v-list-item> -->
       </v-list-group>
       <v-list-group prepend-icon="mdi-history" color="#fff">
         <template v-slot:activator>
           <v-list-item-title class="text-h5">درخواست‌های من</v-list-item-title>
         </template>
 
-        <v-list-item class="hover-navigation-link" @click="$router.push('/dashboard/my-history-company')" :class="{
+        <v-list-item
+          class="hover-navigation-link"
+          @click="$router.push('/dashboard/my-history-company')"
+          :class="{
             'active-navigation': $route.fullPath.includes(
               '/dashboard/my-history-company'
             ),
-          }">
+          }"
+        >
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >درخواست ملحق شدن به شرکت</v-list-item-title
           >
         </v-list-item>
-        <v-list-item  class="hover-navigation-link" @click="$router.push('/dashboard/my-history-file')" :class="{
+        <v-list-item
+          class="hover-navigation-link"
+          @click="$router.push('/dashboard/my-history-file')"
+          :class="{
             'active-navigation': $route.fullPath.includes(
               '/dashboard/my-history-file'
             ),
-          }">
+          }"
+        >
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >درخواست دسترسی به فایل</v-list-item-title
           >
@@ -104,20 +128,28 @@
           >
         </template>
 
-        <v-list-item class="hover-navigation-link" @click="$router.push('/dashboard/requests-company')" :class="{
+        <v-list-item
+          class="hover-navigation-link"
+          @click="$router.push('/dashboard/requests-company')"
+          :class="{
             'active-navigation': $route.fullPath.includes(
               '/dashboard/requests-company'
             ),
-          }">
+          }"
+        >
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >بررسی درخواست به شرکت</v-list-item-title
           >
         </v-list-item>
-        <v-list-item  class="hover-navigation-link" @click="$router.push('/dashboard/requests-file')" :class="{
+        <v-list-item
+          class="hover-navigation-link"
+          @click="$router.push('/dashboard/requests-file')"
+          :class="{
             'active-navigation': $route.fullPath.includes(
               '/dashboard/requests-file'
             ),
-          }">
+          }"
+        >
           <v-list-item-title class="text-h6 pr-8 cursor-pointer"
             >بررسی دسترسی به فایل</v-list-item-title
           >
@@ -155,13 +187,33 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "DashboardNavigation",
   data() {
-    return {};
+    return {
+      allMyCompanies: [{}],
+      userData: JSON.parse(localStorage.getItem("user")) || false,
+    };
   },
   props: {
     drawer: Boolean,
+  },
+  created() {
+    axios
+      .get("http://127.0.0.1:8008/company/receive/", {
+        headers: {
+          Authorization: "Bearer " + this.userData.tokens.access,
+        },
+      })
+      .then((response) => {
+        this.allMyCompanies = response.data;
+        console.log(this.allMyCompanies);
+      })
+      .catch((response) => {
+        console.log(response.data);
+      });
   },
 };
 </script>

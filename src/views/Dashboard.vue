@@ -23,6 +23,11 @@ export default {
       this.drawer = !this.drawer;
     }
   },
+  created(){
+    if(!!!JSON.parse(localStorage.getItem("user"))){
+      this.$router.push('/login')
+    }
+  },
   components: { DashboardHeader, DashboardNavigation, DashboardFooter },
 };
 </script>
