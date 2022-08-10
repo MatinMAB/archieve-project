@@ -8,7 +8,12 @@
             <v-col cols="12">
               <v-text-field
                 v-model="user.email"
-                :rules="[(value) => !!value || 'فیلد ایمیل الزامی است']"
+                :rules="[
+                  (value) => !!value || 'فیلد ایمیل الزامی است',
+                  (value) =>
+                    /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.test(value) ||
+                    'لطفا ایمیل معتبر وارد کنید',
+                ]"
                 append-icon="mdi-email"
                 label="ایمیل *"
                 outlined
@@ -34,6 +39,9 @@
               رمز عبور خود را فراموش کرده‌ام !
             </p>
           </v-row>
+          <p v-show="error" class="subtitle-1 text-center red--text">
+            {{ error }}
+          </p>
           <div class="login-button mt-4">
             <v-btn
               :loading="loading"
@@ -60,6 +68,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginForm",
   data() {
@@ -70,12 +80,44 @@ export default {
       },
       showPassword: false,
       loading: false,
+      error: "",
     };
   },
   methods: {
     login() {
       if (this.$refs.loginForm.validate()) {
         this.loading = true;
+        axios
+          .post("http://127.0.0.1:8008/user/login/", {
+            password: this.user.password,
+            email: this.user.email,
+          })
+          .then((response) => {
+            // if (!!response.data.token) {
+            // console.log(response);
+            // localStorage.setItem("user", JSON.stringify(response.data));
+            // this.loading = false;
+            // this.error = "";
+            // this.$router.push('/dashboard')
+            // }
+            if (response.data.message && !response.data.token) {
+              this.error = "ایمیل یا رمز عبور وارد شده صحیح نمی باشد";
+              console.log(response);
+              this.loading = false;
+            } else if (!!response.data.tokens.access){
+              console.log(response);
+              localStorage.setItem("user", JSON.stringify(response.data));
+              this.loading = false;
+              this.error = "";
+              this.$router.push("/dashboard");
+              
+            }
+          })
+          .catch((response) => {
+            console.log(response);
+            this.error = "در برقراری ارتباط با سرور مشکلی پیش آمده است";
+            this.loading = false;
+          });
       } else {
         this.$refs.loginForm.validate();
       }
