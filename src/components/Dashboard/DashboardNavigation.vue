@@ -212,6 +212,8 @@ export default {
       })
       .then((response) => {
         this.allMyCompanies = response.data;
+        localStorage.setItem("company", JSON.stringify(response.data));
+        console.log(this.allMyCompanies);
       })
       .catch((response) => {
         console.log(response.data);

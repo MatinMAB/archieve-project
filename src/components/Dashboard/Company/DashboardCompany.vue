@@ -17,7 +17,18 @@ export default {
   data() {
     return {
       isBoss: false,
+      userData: JSON.parse(localStorage.getItem("user")) || false,
+      companyData: JSON.parse(localStorage.getItem("company")) || false,
     };
+  },
+  created() {
+    this.companyData.filter((company) => {
+      if (company.manager == this.userData.user.id) {
+        this.isBoss = true;
+      } else {
+        this.isBoss = false;
+      }
+    });
   },
 };
 </script>
