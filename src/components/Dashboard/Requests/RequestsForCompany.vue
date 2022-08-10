@@ -31,7 +31,7 @@
       <v-data-table
         :headers="headers"
         :items="filteredCompanies"
-        :loading="filteredCompanies" 
+        :loading="filteredCompanies"
         loading-text="موردی یافت نشد"
         class="elevation-1 mb-10"
         :footer-props="{ 'items-per-page-text': 'تعداد فایل در هر صفحه' }"
@@ -64,7 +64,13 @@
 
         <template v-slot:item.status="{ item }">
           <v-chip :color="getColor(item.status)" dark>
-            {{ item.status === 'waiting' ? 'در انتظار' : item.status === 'accepted' ? 'تایید شده' : 'تایید نشده' }}
+            {{
+              item.status === "waiting"
+                ? "در انتظار"
+                : item.status === "accepted"
+                ? "تایید شده"
+                : "تایید نشده"
+            }}
           </v-chip>
         </template>
 
@@ -73,10 +79,10 @@
             class="text-h6 d-flex justify-center"
             v-if="item.status === 'waiting'"
           >
-            <v-btn icon>
+            <v-btn icon @click="acceptRequest(item)">
               <v-icon color="green accent-3">mdi-check-outline</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="declineRequest(item)">
               <v-icon color="red accent-3">mdi-close-outline</v-icon>
             </v-btn>
           </span>
@@ -100,7 +106,7 @@
 
         <template v-slot:item.date="{ item }">
           <span class="text-h6">
-            {{item.created.substring(0,10)}}
+            {{ item.created.substring(0, 10) }}
           </span>
         </template>
 
@@ -169,9 +175,9 @@ export default {
     },
     changeFilter() {
       if (this.e1 === "درخواست‌های در انتظار") {
-        this.filteredCompanies = [...this.desserts.filter(
-          (request) => request.status === "waiting"
-        )];
+        this.filteredCompanies = [
+          ...this.desserts.filter((request) => request.status === "waiting"),
+        ];
       } else if (this.e1 === "درخواست‌های تایید شده") {
         this.filteredCompanies = this.desserts.filter(
           (request) => request.status === "accepted"
@@ -184,10 +190,8 @@ export default {
         this.filteredCompanies = [...this.desserts];
       }
     },
-  },
-  created() {
-    
-    axios
+    getRequests(){
+      axios
       .get("http://127.0.0.1:8008/request/receive/", {
         headers: {
           Authorization: "Bearer " + this.userData.tokens.access,
@@ -200,6 +204,52 @@ export default {
       .catch((response) => {
         console.log(response.data);
       });
+    },
+    acceptRequest(item) {
+      console.log(item.id);
+      axios.patch(
+        `http://127.0.0.1:8008/request/req/${item.id}/`,
+        {
+          status : "accepted",
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        }
+      ).then(
+        res => {
+          this.getRequests()
+          console.log(res.data);
+        }
+      ).catch(res => {
+        console.log(res.data);
+      });
+    },
+    declineRequest(item) {
+      console.log(item.id);
+      axios.patch(
+        `http://127.0.0.1:8008/request/req/${item.id}/`,
+        {
+          status: "failed",
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        }
+      ).then(
+        res => {
+          this.getRequests()
+          console.log(res.data);
+        }
+      ).catch(res => {
+        console.log(res.data);
+      });
+    },
+  },
+  created() {
+    this.getRequests()
   },
 };
 </script>

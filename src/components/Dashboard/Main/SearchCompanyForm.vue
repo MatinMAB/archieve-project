@@ -51,9 +51,15 @@
       <v-col cols="0" lg="3" sm="2"></v-col>
     </v-row>
     <v-row justify="center">
-      <v-alert type="success" v-if="suceessRequest"
-        >درخواست شما با موفقیت ارسال شد</v-alert
-      >
+      <v-snackbar color="green accent-3 black--text" v-model="snackbar" :timeout="5000">
+        درخواست شما با موفقیت ارسال شد.
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+            بستن
+          </v-btn>
+        </template>
+      </v-snackbar>
       <v-dialog v-model="dialog" max-width="290">
         <v-card>
           <v-card-title class="text-h5">
@@ -91,7 +97,7 @@ export default {
       userData: JSON.parse(localStorage.getItem("user")) || false,
       dialog: false,
       selectedId: "",
-      suceessRequest: false,
+      snackbar: false,
     };
   },
   methods: {
@@ -126,10 +132,8 @@ export default {
           this.companies = response.data;
           this.dialog = false;
           this.isActive = false;
-          this.suceessRequest = true;
-          setTimeout(() => {
-            this.suceessRequest = false;
-          }, 5000);
+          this.snackbar = true;
+          
           console.log(this.companies);
         })
         .catch((response) => {
