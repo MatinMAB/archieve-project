@@ -58,7 +58,7 @@
         <template v-slot:item.name="{ item }">
           <span class="text-h6">
             <v-icon right> mdi-domain </v-icon>
-            {{ item.company }}</span
+            {{ item.company.name }}</span
           >
         </template>
 

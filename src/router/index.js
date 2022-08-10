@@ -54,11 +54,19 @@ const routes = [
           ),
       },
       {
-        path: "companies/:id",
-        name: "dashboard-company",
+        path: "my-company/:id",
+        name: "dashboard-my-company",
         component: () =>
           import(
-            /* webpackChunkName: "dashboard-company" */ "../components/Dashboard/Company/DashboardCompany.vue"
+            /* webpackChunkName: "dashboard-company" */ "../components/Dashboard/Company/BossDashboardCompany.vue"
+          ),
+      },
+      {
+        path: "companies/:id",
+        name: "dashboard-companies",
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard-company" */ "../components/Dashboard/Company/EmployeeDashboardCompany.vue"
           ),
       },
       {

@@ -39,16 +39,24 @@
             v-for="(myCompany, i) in allMyCompanies"
             :key="i"
             class="hover-navigation-link"
-            @click="$router.push(`/dashboard/companies/${myCompany.name}`)"
+            @click="
+              myCompany.manager == userData.user.id
+                ? $router.push(`/dashboard/my-company/${myCompany.name}`)
+                : $router.push(`/dashboard/companies/${myCompany.name}`)
+            "
             :class="{
               'active-navigation': $route.fullPath.includes(
                 `/dashboard/companies/${myCompany.name}`
               ),
             }"
           >
-            <v-list-item-title class="text-h6 pr-8 cursor-pointer">{{
-              myCompany.name
-            }}</v-list-item-title>
+            <v-list-item-title class="text-h6 pr-8 cursor-pointer"
+              >{{ myCompany.name }} - (
+              {{
+                myCompany.manager == userData.user.id ? "مدیر" : "کارمند"
+              }}
+              )</v-list-item-title
+            >
           </v-list-item>
         </div>
         <div v-else>
@@ -58,33 +66,6 @@
             </v-list-item-title>
           </v-list-item>
         </div>
-
-        <!-- <v-list-item
-          class="hover-navigation-link"
-          @click="$router.push('/dashboard/companies/2')"
-          :class="{
-            'active-navigation': $route.fullPath.includes(
-              '/dashboard/companies/2'
-            ),
-          }"
-        >
-          <v-list-item-title class="text-h6 pr-8 cursor-pointer"
-            >شرکت 2</v-list-item-title
-          >
-        </v-list-item>
-        <v-list-item
-          class="hover-navigation-link"
-          @click="$router.push('/dashboard/companies/3')"
-          :class="{
-            'active-navigation': $route.fullPath.includes(
-              '/dashboard/companies/3'
-            ),
-          }"
-        >
-          <v-list-item-title class="text-h6 pr-8 cursor-pointer"
-            >شرکت 3</v-list-item-title
-          >
-        </v-list-item> -->
       </v-list-group>
       <v-list-group prepend-icon="mdi-history" color="#fff">
         <template v-slot:activator>
@@ -199,7 +180,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem('user')
+      localStorage.removeItem("user");
       this.$router.push("/login");
     },
   },
@@ -212,7 +193,6 @@ export default {
       })
       .then((response) => {
         this.allMyCompanies = response.data;
-        localStorage.setItem("company", JSON.stringify(response.data));
         console.log(this.allMyCompanies);
       })
       .catch((response) => {
