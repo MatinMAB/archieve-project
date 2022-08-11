@@ -81,11 +81,11 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn color="red darken-1" text @click="dialog = false">
+                  <v-btn color="red darken-1" text @click="acceptSending()">
                     مخالفم
                   </v-btn>
 
-                  <v-btn color="green darken-1" text @click="dialog = false">
+                  <v-btn color="green darken-1" text @click="declineSending()">
                     موافقم
                   </v-btn>
                 </v-card-actions>
@@ -99,7 +99,7 @@
             <v-container fluid>
               <v-combobox
                 v-model="selectedFiles"
-                :items="files"
+                :items="fileNames"
                 :search-input.sync="search"
                 :rules="[
                   (value) => value.length > 0 || 'انتخاب فایل الزامی است.',
@@ -131,7 +131,7 @@
             <v-container fluid>
               <v-combobox
                 v-model="selectedMembers"
-                :items="members"
+                :items="memberNames"
                 :search-input.sync="search"
                 :rules="[
                   (value) => value.length > 0 || 'انتخاب عضو الزامی است.',
@@ -172,8 +172,12 @@ export default {
   data: () => ({
     dialog: false,
     files: [],
+    fileNames: [],
+    fileIds: [],
     selectedFiles: [],
     members: [],
+    memberNames: [],
+    memberIds: [],
     selectedMembers: [],
     search: null,
     message: "",
@@ -182,6 +186,20 @@ export default {
   methods: {
     makeAccess() {
       if (this.$refs.access.validate()) {
+        this.files.forEach((file) => {
+          this.selectedFiles.forEach((selectedFile) => {
+            if (file.name == selectedFile) {
+              this.fileIds.push(file.id);
+            }
+          });
+        });
+        this.members.forEach((member) => {
+          this.selectedMembers.forEach((selectedMember) => {
+            if (member.username == selectedMember) {
+              this.memberIds.push(member.id);
+            }
+          });
+        });
         this.dialog = true;
       } else {
         this.$refs.access.validate();
@@ -201,9 +219,10 @@ export default {
               this.$route.params.id +
               " را ندارید.";
           } else {
+            this.files = res.data;
             const newFiles = res.data;
             newFiles.forEach((newFile) => {
-              this.files.push(newFile.name);
+              this.fileNames.push(newFile.name);
             });
             this.message = "";
           }
@@ -212,9 +231,42 @@ export default {
           console.log(res.data);
         });
     },
+    getUsers() {
+      axios
+        .get(`http://127.0.0.1:8008/company/users/${this.$route.params.id}/`, {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        })
+        .then((res) => {
+          this.members = res.data;
+          const newMembers = res.data;
+          newMembers.forEach((newMember) => {
+            this.memberNames.push(newMember.username);
+          });
+          this.message = "";
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
+    },
+    acceptSending() {
+      this.dialog = false
+      this.fileIds = [];
+      this.memberIds = [];
+      console.log(this.fileIds ,this.memberIds);
+    },
+    declineSending() {
+      this.dialog = false
+      this.fileIds = [];
+      this.memberIds = [];
+      console.log(this.fileIds ,this.memberIds);
+      
+    },
   },
   created() {
     this.getFiles();
+    this.getUsers();
   },
 };
 </script>

@@ -35,30 +35,6 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-autocomplete
-                    v-model="file.selectedCategories"
-                    label="دسته / دسته‌های فایل"
-                    :items="[
-                      'دسته 1',
-                      'دسته 2',
-                      'دسته 3',
-                      'دسته 4',
-                      'دسته 5',
-                      'دسته 6',
-                      'دسته 7',
-                      'دسته 8',
-                    ]"
-                    prepend-inner-icon="mdi-shape"
-                    chips
-                    clearable
-                    deletable-chips
-                    multiple
-                    small-chips
-                    item-color="pallete2"
-                    color="pallete2"
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="12">
                   <v-file-input
                     v-model="file.selectedInputFile"
                     :rules="[
@@ -87,6 +63,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "AddNewFileForm",
   data() {
@@ -94,9 +72,10 @@ export default {
       dialog: false,
       file: {
         name: "",
-        selectedCategories: [],
         selectedInputFile: null,
       },
+      userData: JSON.parse(localStorage.getItem("user")) || false,
+      snackbar: false,
     };
   },
   methods: {
@@ -105,7 +84,38 @@ export default {
     },
     addFile() {
       if (this.$refs.addNewFileForm.validate()) {
-        this.dialog = false;
+        let data = new FormData();
+        data.append(
+          "file",
+          new Blob([JSON.stringify(this.file.selectedInputFile)], { type: "application/json" })
+        );
+        console.log(data);
+
+        console.log(this.file.selectedInputFile);
+        // axios
+        //   .post(
+        //     "http://127.0.0.1:8008/file/add/",
+        //     {
+        //       company: this.$route.params.id,
+        //       name: this.file.name,
+        //       file: this.file.selectedInputFile,
+        //     },
+        //     {
+        //       headers: {
+        //         Authorization: "Bearer " + this.userData.tokens.access,
+        //       },
+        //     }
+        //   )
+        //   .then((response) => {
+        //     console.log(response.data);
+        //     this.dialog = false;
+        //     this.snackbar = true;
+
+        //     console.log(this.companies);
+        //   })
+        //   .catch((response) => {
+        //     console.log(response.data);
+        //   });
       } else {
         this.$refs.addNewFileForm.validate();
       }
@@ -116,6 +126,6 @@ export default {
 
 <style scoped>
 .new-file-title {
-  color: #5fb7e4
+  color: #5fb7e4;
 }
 </style>
