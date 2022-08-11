@@ -119,6 +119,19 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar
+      color="red accent-3 white--text"
+      v-model="snackbar"
+      :timeout="5000"
+    >
+      دسترسی کاربر مورد نظر حذف شد.
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          بستن
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -162,6 +175,7 @@ export default {
       userData: JSON.parse(localStorage.getItem("user")) || false,
       accessedPerson: [],
       dialog: false,
+      snackbar: false,
     };
   },
   methods: {
@@ -174,7 +188,6 @@ export default {
         })
         .then((res) => {
           this.desserts = res.data;
-          console.log(res.data);
         })
         .catch((res) => {
           console.log(res.data);
@@ -182,11 +195,33 @@ export default {
     },
     showAccesses(item) {
       this.dialog = true;
+      console.log(item);
       this.accessedPerson = { ...item };
-      console.log(this.accessedPerson);
     },
     removeAccess(itemId) {
+      axios
+        .post(
+          "http://127.0.0.1:8008/file/access_remove/",
+          {
+            user: itemId,
+            file: this.accessedPerson.id,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+            },
+          }
+        )
+        .then((res) => {
+          this.getFiles();
+          this.dialog = false;
+          this.snackbar = true;
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
       console.log(itemId);
+      console.log(this.accessedPerson.id);
     },
   },
   created() {
