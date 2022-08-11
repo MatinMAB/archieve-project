@@ -105,7 +105,7 @@
 
         <template v-slot:item.delete="{ item }">
           <span class="text-h6">
-            <v-btn icon color="red accent-3">
+            <v-btn icon color="red accent-3" @click="deleteFile(item)">
               <v-icon>mdi-trash-can</v-icon>
             </v-btn>
           </span>
@@ -125,6 +125,19 @@
       :timeout="5000"
     >
       دسترسی کاربر مورد نظر حذف شد.
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          بستن
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <v-snackbar
+      color="red accent-3 white--text"
+      v-model="snackbarFile"
+      :timeout="5000"
+    >
+      فایل مورد نظر شما حذف شد.
 
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
@@ -176,6 +189,7 @@ export default {
       accessedPerson: [],
       dialog: false,
       snackbar: false,
+      snackbarFile: false,
     };
   },
   methods: {
@@ -222,6 +236,27 @@ export default {
         });
       console.log(itemId);
       console.log(this.accessedPerson.id);
+    },
+    deleteFile(item) {
+      axios
+        .post(
+          "http://127.0.0.1:8008/file/delete/",
+          {
+            name: item.name,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+            },
+          }
+        )
+        .then((res) => {
+          this.getFiles();
+          this.snackbarFile = true;
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
     },
   },
   created() {

@@ -160,7 +160,6 @@ export default {
           `http://127.0.0.1:8008/company/users/${this.$route.params.id}/`,
           {
             user: user.id,
-            
           },
           {
             headers: {
