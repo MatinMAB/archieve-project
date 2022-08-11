@@ -70,7 +70,12 @@
                 </v-tooltip>
                 <v-tooltip bottom v-else>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs" v-on="on">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="accessRequest(file)"
+                    >
                       <v-icon> mdi-access-point-plus </v-icon>
                     </v-btn>
                   </template>
@@ -145,6 +150,26 @@ export default {
         })
         .catch((res) => {
           this.message = "در برقراری ارتباط با سرور مشکلی پیش آمده است.";
+        });
+    },
+    accessRequest(file) {
+      axios
+        .post(
+          "http://127.0.0.1:8008/request/file/create/",
+          {
+            file_name: file.name,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((res) => {
+          console.log(res.data);
         });
     },
   },
