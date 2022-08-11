@@ -1,16 +1,9 @@
 <template>
   <div>
     <div v-if="message">
-      <v-alert
-      outlined
-      type="warning"
-      prominent
-      border="left"
-      class="ma-12"
-    >
-      {{message}}
-    </v-alert>
-      
+      <v-alert outlined type="warning" prominent border="left" class="ma-12">
+        {{ message }}
+      </v-alert>
     </div>
     <div v-else>
       <div class="d-flex justify-center align-center mt-16 flex-column">
@@ -139,6 +132,10 @@ export default {
         })
         .then((res) => {
           if (res.data.message) {
+            this.message =
+              "شما اجازه دسترسی به فایل های شرکت " +
+              this.$route.params.id +
+              " را ندارید.";
           } else {
             this.files = res.data;
             this.search();
@@ -147,14 +144,7 @@ export default {
           }
         })
         .catch((res) => {
-          if (res.response.status === 404) {
-            this.message =
-              "شما اجازه دسترسی به فایل های شرکت " +
-              this.$route.params.id +
-              " را ندارید.";
-          } else {
-            this.message = "در برقراری ارتباط با سرور مشکلی پیش آمده است.";
-          }
+          this.message = "در برقراری ارتباط با سرور مشکلی پیش آمده است.";
         });
     },
   },

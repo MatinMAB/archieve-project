@@ -4,7 +4,7 @@
       <v-card-title class="text-h4 font-weight-bold">
         جدول فایل‌های موجود در شرکت {{ $route.params.id }}
         <v-spacer></v-spacer>
-        <AddNewFileButton/>
+        <AddNewFileButton />
         <v-text-field
           class="mr-2"
           v-model="search"
@@ -18,6 +18,8 @@
         :headers="headers"
         :items="desserts"
         :search="search"
+        :loading="desserts"
+        loading-text="موردی یافت نشد"
         :footer-props="{ 'items-per-page-text': 'تعداد فایل در هر صفحه' }"
       >
         <!-- data Table Headers -->
@@ -26,15 +28,7 @@
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
-        <template v-slot:header.categories="{ header }">
-          <span class="text-h5">{{ header.text }}</span>
-        </template>
-
         <template v-slot:header.dateAdd="{ header }">
-          <span class="text-h5">{{ header.text }}</span>
-        </template>
-
-        <template v-slot:header.details="{ header }">
           <span class="text-h5">{{ header.text }}</span>
         </template>
 
@@ -52,27 +46,57 @@
           <span class="text-h6">{{ item.name }}</span>
         </template>
 
-        <template v-slot:item.categories="{ item }">
-          <span class="text-h6">{{ item.categories }}</span>
-        </template>
-
         <template v-slot:item.dateAdd="{ item }">
-          <span class="text-h6">{{ item.dateAdd }}</span>
-        </template>
-
-        <template v-slot:item.details="{ item }">
-          <span
-            class="text-h6 text-decoration-underline"
-            style="cursor: pointer"
-            >بیشتر</span
-          >
+          <span class="text-h6">{{ item.added.substring(0, 10) }}</span>
         </template>
 
         <template v-slot:item.accesses="{ item }">
           <span class="text-h6">
-            <v-btn icon color="light-blue accent-3">
+            <v-btn icon color="light-blue accent-3" @click="showAccesses(item)">
               <v-icon>mdi-connection</v-icon>
             </v-btn>
+            <v-dialog v-model="dialog" max-width="490">
+              <v-card>
+                <v-card-title class="text-h5">
+                  لیست افراد دارای دسترس به فایل {{ accessedPerson.name }}
+                </v-card-title>
+
+              
+                <v-simple-table >
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-right text-h6">نام کاربر</th>
+                        <th class="text-right text-h6">ایمیل کاربر</th>
+                        <th class="text-center text-h6">حذف دسترسی</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="item in accessedPerson.users_who_have_access"
+                        :key="item.id"
+                      >
+                        <td class="text-h6">{{ item.username }}</td>
+                        <td class="text-h6">{{ item.email }}</td>
+                        <td class="text-h6 text-center">
+                          <v-btn icon color="red accent-3 d-block text-center" @click="removeAccess(item.id)">
+                            <v-icon>mdi-close-octagon</v-icon>
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="red darken-1" text @click="dialog = false">
+                    بستن
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </span>
         </template>
 
@@ -96,6 +120,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import AddNewFileButton from "./AddNewFileForm.vue";
 
 export default {
@@ -112,11 +137,8 @@ export default {
           align: "start",
           value: "name",
         },
-        { text: "دسته ها", value: "categories" },
-        { text: "تاریخ افزودن", value: "dateAdd" },
-        { text: "جزئیات", value: "details", sortable: false },
 
-        { text: "", value: "", sortable: false },
+        { text: "تاریخ افزودن", value: "dateAdd" },
 
         {
           text: "دسترسی",
@@ -133,69 +155,39 @@ export default {
           width: "90px",
         },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Ice cream sandwich",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Eclair",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Cupcake",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Gingerbread",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Jelly bean",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Lollipop",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Honeycomb",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "Donut",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-        {
-          name: "KitKat",
-          categories: "communication , ..",
-          dateAdd: "1400/01/01",
-          details: {},
-        },
-      ],
+      desserts: [],
+      userData: JSON.parse(localStorage.getItem("user")) || false,
+      accessedPerson: [],
+      dialog: false,
     };
+  },
+  methods: {
+    getFiles() {
+      axios
+        .get(`http://127.0.0.1:8008/file/manager/${this.$route.params.id}/`, {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        })
+        .then((res) => {
+          this.desserts = res.data;
+          console.log(res.data);
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
+    },
+    showAccesses(item) {
+      this.dialog = true;
+      this.accessedPerson = { ...item };
+      console.log(this.accessedPerson);
+    },
+    removeAccess(itemId){
+console.log(itemId);
+    }
+  },
+  created() {
+    this.getFiles();
   },
 };
 </script>
