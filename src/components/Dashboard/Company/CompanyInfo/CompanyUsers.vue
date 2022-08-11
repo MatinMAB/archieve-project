@@ -64,7 +64,7 @@
 
         <template v-slot:item.delete="{ item }">
           <span class="text-h6">
-            <v-btn icon color="red accent-3">
+            <v-btn icon color="red accent-3" @click="deleteUser(item)""">
               <v-icon>mdi-trash-can</v-icon>
             </v-btn>
           </span>
@@ -78,6 +78,20 @@
         </template>
       </v-data-table>
     </v-card>
+
+    <v-snackbar
+      color="red accent-3 white--text"
+      v-model="snackbar"
+      :timeout="5000"
+    >
+      کاربر مورد نظر از شرکت شما حذف شد.
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          بستن
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -121,6 +135,7 @@ export default {
       ],
       desserts: [],
       userData: JSON.parse(localStorage.getItem("user")) || false,
+      snackbar : false,
     };
   },
   methods: {
@@ -139,6 +154,29 @@ export default {
           console.log(res.data);
         });
     },
+    deleteUser(user){
+      axios
+        .post(
+          `http://127.0.0.1:8008/company/users/${this.$route.params.id}/`,
+          {
+            user: user.id,
+            
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+            },
+          }
+        )
+        .then((res) => {
+          this.getUsers();
+          this.snackbar = true;
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
+
+    }
   },
   created() {
     this.getUsers();
