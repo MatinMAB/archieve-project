@@ -61,8 +61,7 @@
                   لیست افراد دارای دسترس به فایل {{ accessedPerson.name }}
                 </v-card-title>
 
-              
-                <v-simple-table >
+                <v-simple-table>
                   <template v-slot:default>
                     <thead>
                       <tr>
@@ -79,7 +78,11 @@
                         <td class="text-h6">{{ item.username }}</td>
                         <td class="text-h6">{{ item.email }}</td>
                         <td class="text-h6 text-center">
-                          <v-btn icon color="red accent-3 d-block text-center" @click="removeAccess(item.id)">
+                          <v-btn
+                            icon
+                            color="red accent-3 d-block text-center"
+                            @click="removeAccess(item.id)"
+                          >
                             <v-icon>mdi-close-octagon</v-icon>
                           </v-btn>
                         </td>
@@ -182,9 +185,9 @@ export default {
       this.accessedPerson = { ...item };
       console.log(this.accessedPerson);
     },
-    removeAccess(itemId){
-console.log(itemId);
-    }
+    removeAccess(itemId) {
+      console.log(itemId);
+    },
   },
   created() {
     this.getFiles();

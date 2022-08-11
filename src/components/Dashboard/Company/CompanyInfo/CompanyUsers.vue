@@ -19,9 +19,7 @@
         :footer-props="{ 'items-per-page-text': 'تعداد کاربر در هر صفحه' }"
       >
         <!-- data Table Headers -->
-        <template v-slot:header.imageUrl="{ header }">
-          <span class="text-h5">{{ header.text }}</span>
-        </template>
+        =
 
         <template v-slot:header.name="{ header }">
           <span class="text-h5">{{ header.text }}</span>
@@ -30,18 +28,8 @@
         <template v-slot:header.email="{ header }">
           <span class="text-h5">{{ header.text }}</span>
         </template>
-
-        <template v-slot:header.dateEntry="{ header }">
-          <span class="text-h5">{{ header.text }}</span>
-        </template>
-
-        <template v-slot:header.details="{ header }">
-          <span class="text-h5">{{ header.text }}</span>
-        </template>
-
-        <template v-slot:header.requests="{ header }">
-          <span class="text-h5">{{ header.text }}</span>
-        </template>
+==
+=
 
         <template v-slot:header.accesses="{ header }">
           <span class="text-h5">{{ header.text }}</span>
@@ -54,36 +42,16 @@
         <!-- data Table Items -->
         <template v-slot:item.imageUrl="{ item }">
           <v-list-item-avatar>
-            <img :src="item.imageUrl" />
+            <img src="https://randomuser.me/api/portraits/men/78.jpg" />
           </v-list-item-avatar>
         </template>
 
         <template v-slot:item.name="{ item }">
-          <span class="text-h6">{{ item.name }}</span>
+          <span class="text-h6">{{ item.username }}</span>
         </template>
 
         <template v-slot:item.email="{ item }">
           <span class="text-h6">{{ item.email }}</span>
-        </template>
-
-        <template v-slot:item.dateEntry="{ item }">
-          <span class="text-h6">{{ item.dateEntry }}</span>
-        </template>
-
-        <template v-slot:item.details="{ item }">
-          <span
-            class="text-h6 text-decoration-underline"
-            style="cursor: pointer"
-            >بیشتر</span
-          >
-        </template>
-
-        <template v-slot:item.requests="{ item }">
-          <span class="text-h6">
-            <v-btn icon color="yellow darken-3">
-              <v-icon>mdi-history</v-icon>
-            </v-btn>
-          </span>
         </template>
 
         <template v-slot:item.accesses="{ item }">
@@ -114,6 +82,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "CompanyUsers",
   data() {
@@ -133,17 +103,7 @@ export default {
           value: "name",
         },
         { text: "ایمیل", value: "email" },
-        { text: "تاریخ ملحق شدن", value: "dateEntry" },
-        { text: "جزئیات", value: "details", sortable: false },
 
-        { text: "", value: "", sortable: false },
-        {
-          text: "درخواست‌ها",
-          value: "requests",
-          sortable: false,
-          align: "center",
-          width: "90px",
-        },
         {
           text: "دسترسی",
           value: "accesses",
@@ -159,79 +119,29 @@ export default {
           width: "90px",
         },
       ],
-      desserts: [
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/75.jpg",
-          name: "Frozen Yogurt",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/79.jpg",
-          name: "Ice cream sandwich",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/69.jpg",
-          name: "Eclair",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/80.jpg",
-          name: "Cupcake",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/90.jpg",
-          name: "Gingerbread",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/77.jpg",
-          name: "Jelly bean",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/71.jpg",
-          name: "Lollipop",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/80.jpg",
-          name: "Honeycomb",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/90.jpg",
-          name: "Donut",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-        {
-          imageUrl: "https://randomuser.me/api/portraits/women/40.jpg",
-          name: "KitKat",
-          email: "sample125_ds@gmail.com",
-          dateEntry: "1400/01/01",
-          details: {},
-        },
-      ],
+      desserts: [],
+      userData: JSON.parse(localStorage.getItem("user")) || false,
     };
+  },
+  methods: {
+    getUsers() {
+      axios
+        .get(`http://127.0.0.1:8008/company/users/${this.$route.params.id}/`, {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        })
+        .then((res) => {
+          this.desserts = res.data;
+          console.log(res.data);
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
+    },
+  },
+  created() {
+    this.getUsers();
   },
 };
 </script>

@@ -86,14 +86,6 @@ const routes = [
           ),
       },
       {
-        path: "companies/:id/categories",
-        name: "company-categories",
-        component: () =>
-          import(
-            /* webpackChunkName: "company-categories" */ "../components/Dashboard/Company/CompanyInfo/CompanyCategories.vue"
-          ),
-      },
-      {
         path: "my-account",
         name: "my-account",
         component: () =>
