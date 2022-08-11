@@ -89,6 +89,20 @@
         <v-alert v-else shaped prominent type="error">
           فایلی برای این شرکت یافت نشد ...
         </v-alert>
+
+        <v-snackbar
+          color="green accent-3 black--text"
+          v-model="snackbar"
+          :timeout="5000"
+        >
+          درخواست شما با موفقیت ارسال شد.
+
+          <template v-slot:action="{ attrs }">
+            <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+              بستن
+            </v-btn>
+          </template>
+        </v-snackbar>
       </v-row>
       <div class="text-center">
         <v-pagination
@@ -120,6 +134,7 @@ export default {
       page: 1,
       userData: JSON.parse(localStorage.getItem("user")) || false,
       message: "",
+      snackbar: false,
     };
   },
   methods: {
@@ -166,6 +181,7 @@ export default {
           }
         )
         .then((res) => {
+          this.snackbar = true;
           console.log(res.data);
         })
         .catch((res) => {
