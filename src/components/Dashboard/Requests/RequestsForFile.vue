@@ -215,54 +215,55 @@ export default {
         })
         .then((response) => {
           this.desserts = response.data;
+          console.log(this.desserts);
           this.changeFilter();
         })
         .catch((response) => {
           console.log(response.data);
         });
     },
-    // acceptRequest(item) {
-    //   console.log(item.id);
-    //   axios.patch(
-    //     `http://127.0.0.1:8008/request/req/${item.id}/`,
-    //     {
-    //       status : "accepted",
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: "Bearer " + this.userData.tokens.access,
-    //       },
-    //     }
-    //   ).then(
-    //     res => {
-    //       this.getRequests()
-    //       console.log(res.data);
-    //     }
-    //   ).catch(res => {
-    //     console.log(res.data);
-    //   });
-    // },
-    // declineRequest(item) {
-    //   console.log(item.id);
-    //   axios.patch(
-    //     `http://127.0.0.1:8008/request/req/${item.id}/`,
-    //     {
-    //       status: "failed",
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: "Bearer " + this.userData.tokens.access,
-    //       },
-    //     }
-    //   ).then(
-    //     res => {
-    //       this.getRequests()
-    //       console.log(res.data);
-    //     }
-    //   ).catch(res => {
-    //     console.log(res.data);
-    //   });
-    // },
+    acceptRequest(item) {
+      console.log(item.id);
+      axios.patch(
+        `http://127.0.0.1:8008/request/f/${item.id}/`,
+        {
+          status : "accepted",
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        }
+      ).then(
+        res => {
+          this.getRequests()
+          console.log(res.data);
+        }
+      ).catch(res => {
+        console.log(res.data);
+      });
+    },
+    declineRequest(item) {
+      console.log(item.id);
+      axios.patch(
+        `http://127.0.0.1:8008/request/f/${item.id}/`,
+        {
+          status: "failed",
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + this.userData.tokens.access,
+          },
+        }
+      ).then(
+        res => {
+          this.getRequests()
+          console.log(res.data);
+        }
+      ).catch(res => {
+        console.log(res.data);
+      });
+    },
   },
   created() {
     this.getRequests()
