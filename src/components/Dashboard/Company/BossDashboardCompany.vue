@@ -7,19 +7,6 @@
     </div>
     <div>
       <v-row class="align-center">
-        <v-badge
-          bordered
-          color="pallete1"
-          icon="4"
-          class="ma-8"
-          overlap
-          md="mr-16 mt-16"
-        >
-          <v-btn class="white--text text-h6" color="pallete1" depressed>
-            درخواست‌های جدید
-          </v-btn>
-        </v-badge>
-        <v-spacer></v-spacer>
         <div class="ma-8 company-user-file-category-btn">
           <v-btn
             color="light-blue lighten-2"
@@ -42,6 +29,43 @@
             فایل ها
           </v-btn>
         </div>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="white--text text-h6 mr-8 mt-8 ma-8"
+          color="red"
+          depressed
+          @click="deleteDialog = true"
+        >
+          حذف شرکت
+        </v-btn>
+        <v-dialog v-model="deleteDialog" max-width="290">
+          <v-card>
+            <v-card-title class="text-h4"> حذف شرکت ؟ </v-card-title>
+
+            <v-card-text class="text-h5">
+              آیا از حذف شرکت مطمئن هستید؟
+            </v-card-text>
+            <p class="red--text mr-8">{{ error }}</p>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                color="red darken-1"
+                text
+                @click="
+                  deleteDialog = false;
+                  error = '';
+                "
+              >
+                مخالفم
+              </v-btn>
+
+              <v-btn color="green darken-1" text @click="acceptDeleting()">
+                موافقم
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
       <div class="d-flex justify-center align-center flex-column">
         <v-img
@@ -165,10 +189,27 @@
         v-model="snackbar"
         :timeout="5000"
       >
-    ایجاد دسترسی فایل ها برای کاربران مورد نظر شما با موفقیت انجام شد.
+        ایجاد دسترسی فایل ها برای کاربران مورد نظر شما با موفقیت انجام شد.
 
         <template v-slot:action="{ attrs }">
           <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+            بستن
+          </v-btn>
+        </template>
+      </v-snackbar>
+      <v-snackbar
+        color="green accent-3 black--text"
+        v-model="deleteSnackbar"
+        :timeout="5000"
+      >
+        حذف شرکت با موفقیت انجام شد.
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="red"
+            text
+            v-bind="attrs"
+            @click="deleteSnackbar = false"
+          >
             بستن
           </v-btn>
         </template>
@@ -196,6 +237,9 @@ export default {
     message: "",
     userData: JSON.parse(localStorage.getItem("user")) || false,
     snackbar: false,
+    deleteDialog: false,
+    deleteSnackbar: false,
+    error: "",
   }),
   methods: {
     makeAccess() {
@@ -298,7 +342,51 @@ export default {
       this.memberIds = [];
       console.log(this.fileIds, this.memberIds);
     },
+    deleteCompany() {
+      this.deleteDialog = true;
+      // axios
+      //   .post(
+      //     "http://127.0.0.1:8008/company/delete/",
+      //     {
+      //       company_name: this.$route.params.id,
+      //     },
+      //     {
+      //       headers: {
+      //         Authorization: "Bearer " + this.userData.tokens.access,
+      //       },
+      //     }
+      //   )
+      //   .then((response) => {
+      //     console.log(response.data);
+      //   })
+      //   .catch((response) => {});
+    },
+    acceptDeleting() {
+      axios
+        .post(
+          "http://127.0.0.1:8008/company/delete/",
+          {
+            company_name: this.$route.params.id,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.deleteDialog = false;
+          this.deleteSnackbar = true;
+          this.error = "";
+          this.$router.push("/dashboard");
+        })
+        .catch((response) => {
+          this.error = "امکان حذف شرکت نیست";
+        });
+    },
   },
+
   created() {
     this.getFiles();
     this.getUsers();

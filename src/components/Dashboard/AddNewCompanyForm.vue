@@ -103,7 +103,7 @@ export default {
       dialog: false,
       company: {
         name: "",
-        image: null,
+        image: "",
         description: "",
       },
       error: "",
@@ -157,7 +157,7 @@ export default {
     cancelAddCompany() {
       this.dialog = false;
       this.company.name = "";
-      this.company.image = null;
+      this.company.image = "";
       this.company.description = "";
     },
   },
