@@ -32,23 +32,7 @@
                     color="pallete2"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="company.phoneNumber"
-                    label="شماره همراه *"
-                    :rules="[
-                      (value) => !!value || 'فیلد شماره همراه الزامی است',
-                      (value) =>
-                        !!Number(value) === true ||
-                        'لطفا شماره همراه معتبر وارد کنید',
-                      (value) =>
-                        value.length == 11 ||
-                        'لطفا شماره همراه معتبر وارد کنید',
-                    ]"
-                    prepend-inner-icon="mdi-phone"
-                    color="pallete2"
-                  ></v-text-field>
-                </v-col>
+
                 <v-col cols="12">
                   <v-file-input
                     v-model="company.image"
@@ -61,7 +45,7 @@
                 </v-col>
                 <v-col cols="12">
                   <v-textarea
-                    v-model="company.extraText"
+                    v-model="company.description"
                     label="توضیحات شرکت"
                     color="pallete2"
                     prepend-inner-icon="mdi-text-long"
@@ -70,6 +54,9 @@
               </v-row>
             </v-container>
           </v-card-text>
+          <p v-show="error" class="mr-8 mt-n4 pb-4 red--text text-h6">
+            {{ error }}
+          </p>
           <v-card-actions class="mr-4 mt-n4 pb-4">
             <v-btn
               color="red darken-1 text-h6"
@@ -84,11 +71,26 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-snackbar
+        color="green accent-3 black--text"
+        v-model="snackbar"
+        :timeout="5000"
+      >
+        ثبت شرکت شما با موفقیت انجام شد
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+            بستن
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-row>
   </v-form>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "AddNewCompanyForm",
   data() {
@@ -96,16 +98,51 @@ export default {
       dialog: false,
       company: {
         name: "",
-        phoneNumber: "",
         image: null,
-        extraText: "",
+        description: "",
       },
+      error: "",
+      userData: JSON.parse(localStorage.getItem("user")) || false,
+      snackbar: false,
     };
   },
   methods: {
     addCompany() {
       if (this.$refs.addNewCompanyForm.validate()) {
-        this.dialog = false;
+        axios
+          .post(
+            "http://127.0.0.1:8008/company/create/",
+            {
+              manager: "",
+              name: this.company.name,
+              image: this.company.image,
+              description: this.company.description,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + this.userData.tokens.access,
+              },
+            }
+          )
+          .then((response) => {
+            if (!!response.data.message) {
+              this.error =
+                "امکان ثبت شرکت جدید نیست. شما صاحب شرکت " +
+                response.data.message +
+                " هستید.";
+            } else if (
+              response.data.name[0] == "company with this name already exists."
+            ) {
+              this.error = "شرکتی با این نام قبلا در سیستم ثبت شده است.";
+            } else {
+              this.dialog = false;
+              this.snackbar = true;
+              this.error = "";
+            }
+          })
+          .catch((response) => {
+            console.log(response.data);
+          });
       } else {
         this.$refs.addNewCompanyForm.validate();
       }
