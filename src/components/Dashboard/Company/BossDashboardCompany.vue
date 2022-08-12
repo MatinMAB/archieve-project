@@ -81,11 +81,11 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
-                  <v-btn color="red darken-1" text @click="acceptSending()">
+                  <v-btn color="red darken-1" text @click="declineSending()">
                     مخالفم
                   </v-btn>
 
-                  <v-btn color="green darken-1" text @click="declineSending()">
+                  <v-btn color="green darken-1" text @click="acceptSending()">
                     موافقم
                   </v-btn>
                 </v-card-actions>
@@ -160,6 +160,19 @@
           </v-col>
         </v-row>
       </v-form>
+      <v-snackbar
+        color="green accent-3 black--text"
+        v-model="snackbar"
+        :timeout="5000"
+      >
+    ایجاد دسترسی فایل ها برای کاربران مورد نظر شما با موفقیت انجام شد.
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+            بستن
+          </v-btn>
+        </template>
+      </v-snackbar>
     </div>
   </div>
 </template>
@@ -182,6 +195,7 @@ export default {
     search: null,
     message: "",
     userData: JSON.parse(localStorage.getItem("user")) || false,
+    snackbar: false,
   }),
   methods: {
     makeAccess() {
@@ -201,6 +215,8 @@ export default {
           });
         });
         this.dialog = true;
+        console.log(this.memberIds);
+        console.log(this.fileIds);
       } else {
         this.$refs.access.validate();
       }
@@ -251,17 +267,36 @@ export default {
         });
     },
     acceptSending() {
-      this.dialog = false
-      this.fileIds = [];
-      this.memberIds = [];
-      console.log(this.fileIds ,this.memberIds);
+      axios
+        .post(
+          `http://127.0.0.1:8008/file/access_create/`,
+          {
+            user: this.memberIds,
+            file: this.fileIds,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          this.dialog = false;
+          this.snackbar = true;
+          this.fileIds = [];
+          this.memberIds = [];
+          console.log(this.fileIds, this.memberIds);
+        })
+        .catch((res) => {
+          console.log(res.data);
+        });
     },
     declineSending() {
-      this.dialog = false
+      this.dialog = false;
       this.fileIds = [];
       this.memberIds = [];
-      console.log(this.fileIds ,this.memberIds);
-      
+      console.log(this.fileIds, this.memberIds);
     },
   },
   created() {
