@@ -65,7 +65,12 @@
             >
               انصراف
             </v-btn>
-            <v-btn color="green darken-1 text-h6" dark @click="addCompany()">
+            <v-btn
+              color="green darken-1 text-h6"
+              dark
+              @click="addCompany()"
+              :loading="loading"
+            >
               ثبت
             </v-btn>
           </v-card-actions>
@@ -104,44 +109,46 @@ export default {
       error: "",
       userData: JSON.parse(localStorage.getItem("user")) || false,
       snackbar: false,
+      loading: false,
     };
   },
   methods: {
     addCompany() {
       if (this.$refs.addNewCompanyForm.validate()) {
+        this.loading = true;
+        let data = new FormData();
+        data.append("manager", "");
+        data.append("name", this.company.name);
+        data.append("image", this.company.image);
+        data.append("description", this.company.description);
         axios
-          .post(
-            "http://127.0.0.1:8008/company/create/",
-            {
-              manager: "",
-              name: this.company.name,
-              image: this.company.image,
-              description: this.company.description,
+          .post("http://127.0.0.1:8008/company/create/", data, {
+            headers: {
+              Authorization: "Bearer " + this.userData.tokens.access,
             },
-            {
-              headers: {
-                Authorization: "Bearer " + this.userData.tokens.access,
-              },
-            }
-          )
+          })
           .then((response) => {
             if (!!response.data.message) {
               this.error =
                 "امکان ثبت شرکت جدید نیست. شما صاحب شرکت " +
                 response.data.message +
                 " هستید.";
+              this.loading = false;
             } else if (
               response.data.name[0] == "company with this name already exists."
             ) {
               this.error = "شرکتی با این نام قبلا در سیستم ثبت شده است.";
+              this.loading = false;
             } else {
               this.dialog = false;
               this.snackbar = true;
               this.error = "";
+              this.loading = false;
             }
           })
           .catch((response) => {
             console.log(response.data);
+            this.loading = false;
           });
       } else {
         this.$refs.addNewCompanyForm.validate();
@@ -149,6 +156,9 @@ export default {
     },
     cancelAddCompany() {
       this.dialog = false;
+      this.company.name = "";
+      this.company.image = null;
+      this.company.description = "";
     },
   },
 };
