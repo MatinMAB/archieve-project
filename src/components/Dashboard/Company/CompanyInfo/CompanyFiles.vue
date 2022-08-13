@@ -140,7 +140,7 @@
       فایل مورد نظر شما حذف شد.
 
       <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+        <v-btn color="white" text v-bind="attrs" @click="snackbarFile = false">
           بستن
         </v-btn>
       </template>
