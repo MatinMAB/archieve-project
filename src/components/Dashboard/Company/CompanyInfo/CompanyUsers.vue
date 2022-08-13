@@ -42,7 +42,7 @@
         <!-- data Table Items -->
         <template v-slot:item.imageUrl="{ item }">
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/men/78.jpg" />
+            <img src="http://cdn.onlinewebfonts.com/svg/img_569204.png" />
           </v-list-item-avatar>
         </template>
 

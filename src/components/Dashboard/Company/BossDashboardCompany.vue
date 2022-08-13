@@ -70,10 +70,10 @@
       <div class="d-flex justify-center align-center flex-column">
         <v-img
           class="company-avatar"
-          lazy-src="https://picsum.photos/id/11/10/6"
+          lazy-src="https://static.thenounproject.com/png/509354-200.png"
           max-height="100"
           max-width="100"
-          src="https://picsum.photos/id/11/500/300"
+          src="https://static.thenounproject.com/png/509354-200.png"
         ></v-img>
 
         <h2 class="text-h3 font-weight-black text-center mt-2">

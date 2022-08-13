@@ -51,8 +51,16 @@
       <v-col cols="0" lg="3" sm="2"></v-col>
     </v-row>
     <v-row justify="center">
-      <v-snackbar color="green accent-3 black--text" v-model="snackbar" :timeout="5000">
-        درخواست شما با موفقیت ارسال شد.
+      <v-snackbar
+        :color="
+          snackbarMessage == 'درخواست شما با موفقیت ارسال شد.'
+            ? 'green accent-3 black--text'
+            : 'red accent-3 white--text'
+        "
+        v-model="snackbar"
+        :timeout="5000"
+      >
+        {{ snackbarMessage }}
 
         <template v-slot:action="{ attrs }">
           <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
@@ -98,6 +106,7 @@ export default {
       dialog: false,
       selectedId: "",
       snackbar: false,
+      snackbarMessage: "",
     };
   },
   methods: {
@@ -129,12 +138,19 @@ export default {
           }
         )
         .then((response) => {
-          this.companies = response.data;
-          this.dialog = false;
-          this.isActive = false;
-          this.snackbar = true;
-          
-          console.log(this.companies);
+          if (response.data.message) {
+            this.dialog = false;
+            this.isActive = false;
+            this.snackbar = true;
+            this.snackbarMessage = response.data.message;
+          } else {
+            this.companies = response.data;
+            this.dialog = false;
+            this.isActive = false;
+            this.snackbar = true;
+            this.snackbarMessage = "درخواست شما با موفقیت ارسال شد.";
+            console.log(this.companies);
+          }
         })
         .catch((response) => {
           console.log(response.data);

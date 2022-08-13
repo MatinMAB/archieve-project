@@ -32,12 +32,7 @@
                 shaped
               ></v-text-field>
             </v-col>
-            <p
-              class="text-h6 mr-4 mt-n3 pallete3--text forget-password"
-              @click="goToRecoverPassword"
-            >
-              رمز عبور خود را فراموش کرده‌ام !
-            </p>
+            
           </v-row>
           <p v-show="error" class="subtitle-1 text-center red--text">
             {{ error }}

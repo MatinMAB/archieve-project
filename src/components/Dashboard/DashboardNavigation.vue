@@ -3,7 +3,7 @@
     <template v-slot:prepend>
       <v-list-item two-line>
         <v-list-item-avatar>
-          <img src="https://randomuser.me/api/portraits/men/75.jpg" />
+          <img src="http://cdn.onlinewebfonts.com/svg/img_569204.png" />
         </v-list-item-avatar>
 
         <v-list-item-content>

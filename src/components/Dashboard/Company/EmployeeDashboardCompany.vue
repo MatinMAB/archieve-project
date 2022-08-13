@@ -9,10 +9,10 @@
       <div class="d-flex justify-center align-center mt-16 flex-column">
         <v-img
           class="company-avatar"
-          lazy-src="https://picsum.photos/id/11/10/6"
+          lazy-src="https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/company-enterprise-icon.png"
           max-height="100"
           max-width="100"
-          src="https://picsum.photos/id/11/500/300"
+          src="https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/company-enterprise-icon.png"
         ></v-img>
 
         <h2 class="text-h3 font-weight-black text-center mt-2">
@@ -62,9 +62,11 @@
                 <v-spacer></v-spacer>
                 <v-tooltip bottom v-if="file.access == true">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs" v-on="on">
-                      <v-icon> mdi-cloud-upload </v-icon>
-                    </v-btn>
+                    <a :href="file.url" download style="text-decoration : none">
+                      <v-btn icon v-bind="attrs" v-on="on">
+                        <v-icon> mdi-cloud-download </v-icon>
+                      </v-btn>
+                    </a>
                   </template>
                   <span>Download</span>
                 </v-tooltip>
